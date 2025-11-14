@@ -7,9 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.project2.database.entities.JobLog;
 import com.example.project2.database.entities.User;
+import com.example.project2.database.typeConverters.LocalDateTypeConverter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,7 +23,8 @@ import java.util.concurrent.Executors;
  * <br>DATE: 11/13/2025
  * <br>ASSIGNMENT: Project 02
  */
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@TypeConverters (LocalDateTypeConverter.class)
+@Database(entities = {User.class, JobLog.class}, version = 1, exportSchema = false)
 public abstract class CareerNestDatabase extends RoomDatabase{
 
     public static final String USER_TABLE = "UserTable";
@@ -66,9 +70,6 @@ public abstract class CareerNestDatabase extends RoomDatabase{
             });
         }
     };
-
-    //TODO: add job log entry DAO abstract method below
-    //public abstract JobLogDAO jobLogDAO();
-
     public abstract UserDAO userDAO();
+    public abstract JobLogDAO jobLogDAO();
 }
