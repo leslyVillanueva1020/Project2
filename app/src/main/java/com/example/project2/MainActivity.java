@@ -1,29 +1,53 @@
+/**
+ * Author: Adrik Renteria
+ * Date 11/13/2025
+ * Project: Project 2
+ * Abstract: this is the main activity for the project
+ */
 package com.example.project2;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.project2.databinding.ActivityMainBinding;
 
 public class MainActivity extends Activity {
+    ActivityMainBinding binding;
 
-    private static final String MAIN_ACTIVITY_USER_ID = "com.example.project2.MAIN_ACTIVITY_USER_ID";
-    private ActivityMainBinding binding;
+    private static final String TAG = "MainActivity";
+    String username = "";
+    String password = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view); //this section sets main screen of Android App
+        setContentView(binding.getRoot());
+
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getInformationFromDisplay();
+                //updateDisplay();
+
+                //Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                //startActivity(intent);
+            }
+        });
     }
 
-    static Intent mainActivityIntentFacotry(Context context, int userId){
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MAIN_ACTIVITY_USER_ID, userId);
-        return intent;
+    private void updateDisplay(){
+        //String currentinfo = binding.UserNameEditText.toString();
     }
+
+    private void getInformationFromDisplay(){
+        //this should get the log in info
+        username = binding.UserNameEditText.getText().toString();
+        password = binding.passwordeEditText.getText().toString();
+
+    }
+
 }
