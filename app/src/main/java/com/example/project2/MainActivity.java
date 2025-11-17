@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loginUser(Bundle savedInstanceState) {
-        SharedPreferences sp = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         loggedInUserId = sp.getInt(KEY_USER_ID, LOGGED_OUT);
 
         if(loggedInUserId == LOGGED_OUT && savedInstanceState != null &&

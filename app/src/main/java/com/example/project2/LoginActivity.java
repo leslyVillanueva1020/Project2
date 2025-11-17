@@ -2,6 +2,7 @@ package com.example.project2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -25,7 +26,11 @@ import com.example.project2.databinding.ActivityLoginBinding;
  * <br>ASSIGNMENT: Project 02
  */
 public class LoginActivity extends AppCompatActivity {
-
+    // ---- SharedPreferences constants (must match Main & Landing) ----
+    private static final String PREFS_NAME   = "app_prefs";
+    private static final String KEY_USER_ID  = "userId";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_IS_ADMIN = "isAdmin";
     private ActivityLoginBinding binding;
 
     private CareerNestRepository repository;
@@ -35,6 +40,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        SharedPreferences sp = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        int cachedUserId = sp.getInt("userId", -1);
+        if (cachedUserId != -1) {
+            startActivity(LandingActivity.intentFactory(this, cachedUserId));
+            finish();
+            return;
+        }
 
         repository = CareerNestRepository.getRepository(getApplication());
         binding.buttonLoginPage.setOnClickListener(new View.OnClickListener(){
@@ -60,8 +73,15 @@ public class LoginActivity extends AppCompatActivity {
                 String password = binding.passwordLoginEditText.getText().toString();
 
                 if(password.equals(user.getPassword())){
+                    SharedPreferences sp = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putInt(KEY_USER_ID, user.getId());
+                    editor.putString(KEY_USERNAME, user.getUsername());
+                    editor.putBoolean(KEY_IS_ADMIN, user.isAdmin());
+                    editor.apply();
                     startActivity(LandingActivity.intentFactory(this, user.getId()));
                     //startActivity(MainActivity.mainActivityIntentFacotry(getApplicationContext(), user.getId()));
+                    finish();
                 }
                 else{
                     toastMaker("Invalid Password.");
