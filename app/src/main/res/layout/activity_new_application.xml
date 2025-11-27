@@ -25,7 +25,7 @@
     <EditText
         android:id="@+id/CompanyNameEditText"
         android:layout_width="196dp"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:gravity="center"
         android:hint="@string/enter_name"
@@ -50,7 +50,7 @@
     <EditText
         android:id="@+id/PositionEditText"
         android:layout_width="196dp"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:gravity="center"
         android:hint="Enter Position"
@@ -75,12 +75,13 @@
     <!-- Drop Down Menu -->
     <Spinner
         android:layout_width="126dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:id="@+id/dropDownMenu"
         app:layout_constraintStart_toEndOf="@+id/ApplicationStatusText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/ApplicationStatusText"
         app:layout_constraintTop_toTopOf="@+id/ApplicationStatusText" />
+    <!-- Date Applied Text View -->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
