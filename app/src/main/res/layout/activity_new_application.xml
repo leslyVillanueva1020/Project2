@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".NewApplicationActivity">
     <!--Company Name Text-->
     <TextView
@@ -61,8 +62,8 @@
     <!-- Application Status Text -->
     <TextView
         android:id="@id/ApplicationStatusText"
-        android:layout_width="126dp"
-        android:layout_height="64dp"
+        android:layout_width="110dp"
+        android:layout_height="93dp"
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:text="Application Status"
@@ -71,5 +72,15 @@
         app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/PositionText" />
+    <!-- Drop Down Menu -->
+    <Spinner
+        android:layout_width="126dp"
+        android:layout_height="60dp"
+        android:id="@+id/dropDownMenu"
+        app:layout_constraintStart_toEndOf="@+id/ApplicationStatusText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/ApplicationStatusText"
+        app:layout_constraintTop_toTopOf="@+id/ApplicationStatusText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,4 +3,11 @@
     <string name="enter_company_name">Enter Company Name</string>
     <string name="company_name">Company Name:</string>
     <string name="enter_name">Enter Name</string>
+    <string-array name="my_dropdown_items">
+        <item>In Progress</item>
+        <item>Applied</item>
+        <item>Rejected</item>
+        <item>Ofer</item>
+        <item>Interview</item>
+    </string-array>
 </resources>
