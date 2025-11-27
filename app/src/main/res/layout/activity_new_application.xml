@@ -93,6 +93,37 @@
         app:layout_constraintHorizontal_bias="0.136"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ApplicationStatusText" />
+    <!-- TODO create calendar drop down -->
+
+    <!-- Reminder Text View -->
+    <TextView
+        android:id="@+id/ReminderText"
+        android:layout_width="72dp"
+        android:layout_height="31dp"
+        android:text="Reminder:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.197"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/DateAppliedText"
+        app:layout_constraintVertical_bias="0.072" />
+    <!-- Reminder button -->
+    <Button
+        android:id="@+id/reminderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ Add Reminder"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="433dp" />
+    app:layout_constraintVertical_bias="0.525" />
+
+
+
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
