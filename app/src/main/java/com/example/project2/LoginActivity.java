@@ -56,6 +56,15 @@ public class LoginActivity extends AppCompatActivity {
                 verifyUser();
             }
         });
+
+        ///  When user clicks 'Sign Up' text  ->  SignUpActivity
+        binding.signupTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void verifyUser() {
