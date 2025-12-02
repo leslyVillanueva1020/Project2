@@ -1,6 +1,7 @@
 package com.example.project2;
 
 import android.app.DatePickerDialog;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,6 @@ public class NewApplicationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_application);
         binding = ActivityNewApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -40,17 +40,39 @@ public class NewApplicationActivity extends AppCompatActivity {
 
             }
         });
+
+        binding.saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toastMaker("Application Saved!");
+                finish();
+            }
+        });
+        binding.cancelButton.setOnClickListener(v -> finish());
     }
 
     private void openDialog(){
+        //get current date so the calendar opens to today
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                toastMaker(String.valueOf(year)+ "."+String.valueOf(month)+ "."+String.valueOf(dayOfMonth));
-            }
-        }, 2025, 0, 15);
-        dialog.show();
+                //month is 0-indexed (Jan = 0), so add 1 for display
+                String dateString = year + "." + (month + 1) + "." + dayOfMonth;
 
+                //show toast
+                toastMaker(dateString);
+
+                //update the text on the button to show the selected date
+                binding.dateButton.setText(dateString);
+            }
+        }, year, month, day); //pass current date as default
+
+        dialog.show();
     }
 
     private void toastMaker(String s) {

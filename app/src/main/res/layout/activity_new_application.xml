@@ -10,8 +10,8 @@
     <!--Company Name Text-->
     <TextView
         android:id="@+id/CompanyNameText"
-        android:layout_width="126dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/company_name"
         android:textSize="15dp"
@@ -35,18 +35,21 @@
         app:layout_constraintBottom_toBottomOf="@id/CompanyNameText"
         app:layout_constraintStart_toEndOf="@id/CompanyNameText" />
     <!-- Position text view -->
+    <!-- Position Edit Text -->
+
     <TextView
         android:id="@id/PositionText"
-        android:layout_width="126dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Position Title:"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/CompanyNameText" />
-    <!-- Position Edit Text -->
+
     <EditText
         android:id="@+id/PositionEditText"
         android:layout_width="196dp"
@@ -114,15 +117,20 @@
         app:layout_constraintTop_toBottomOf="@id/DateAppliedText"
         app:layout_constraintVertical_bias="0.377" />
 
+    <!-- Save Button -->
+    <!-- Cancel Button-->
+
     <Button
         android:id="@+id/reminderButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+ Add Reminder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.302"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReminderText"
-        tools:layout_editor_absoluteX="67dp" />
-    <!-- Save Button -->
-    <!-- Cancel Button-->
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/saveButton"
