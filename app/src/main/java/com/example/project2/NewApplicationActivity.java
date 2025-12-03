@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ import com.example.project2.databinding.ActivityNewApplicationBinding;
 
 public class NewApplicationActivity extends AppCompatActivity {
 
-    private final String companyName = "";
+    private String companyName = "";
     private final String status = "";
     private final String dateApplied = "";
     private ActivityNewApplicationBinding binding;
@@ -31,6 +32,23 @@ public class NewApplicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNewApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //TODO implement company name and title
+
+        //creates th options for the drop down menu
+        String[] status = {"Applied", "In Progress", "Rejected", "Offer, Interview"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_item,
+                status
+        );
+        //this setst he layout for the drop down menu
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //this sets the adapter to the drop down menu
+        binding.dropDownMenu.setAdapter(adapter);
+        //
+
+
 
         button = findViewById(R.id.saveButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +59,7 @@ public class NewApplicationActivity extends AppCompatActivity {
             }
         });
 
-        binding.saveButton.setOnClickListener(new View.OnClickListener() {
+        binding.dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toastMaker("Application Saved!");

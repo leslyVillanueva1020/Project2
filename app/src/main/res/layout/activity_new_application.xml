@@ -89,7 +89,7 @@
         app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ApplicationStatusText" />
-
+    <!-- Drop Down Menu -->
     <Spinner
         android:id="@+id/dropDownMenu"
         android:layout_width="126dp"
@@ -101,7 +101,6 @@
         app:layout_constraintTop_toTopOf="@+id/ApplicationStatusText"
         app:layout_constraintVertical_bias="0.521" />
     <!-- Date Applied Text View -->
-    <!-- TODO create calendar drop down -->
 
     <!-- Reminder Text View -->
     <!-- Reminder button -->
@@ -118,7 +117,6 @@
         app:layout_constraintVertical_bias="0.377" />
 
     <!-- Save Button -->
-    <!-- Cancel Button-->
 
     <Button
         android:id="@+id/reminderButton"
@@ -131,7 +129,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReminderText"
         app:layout_constraintVertical_bias="0.0" />
-
+    <!-- Save Button -->
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
@@ -143,7 +141,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.933" />
-
+    <!-- Cancel Button-->
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
@@ -157,7 +155,7 @@
         app:layout_constraintTop_toTopOf="@+id/saveButton"
         app:layout_constraintVertical_bias="0.0" />
 
-
+    <!-- Enter Date Button-->
     <Button
         android:id="@+id/dateButton"
         android:layout_width="wrap_content"
@@ -169,6 +167,19 @@
         app:layout_constraintHorizontal_bias="0.364"
         app:layout_constraintStart_toEndOf="@+id/DateAppliedText"
         app:layout_constraintTop_toTopOf="@id/DateAppliedText" />
+    <!-- Title Text View -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Application"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#F2F2F2"
+        app:layout_constraintBottom_toTopOf="@+id/CompanyNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
