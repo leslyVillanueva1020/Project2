@@ -1,5 +1,7 @@
 package com.example.project2;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -77,5 +79,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void toastMaker(String s) {
         Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    }
+
+    static Intent signUpIntentFactory(Context context){
+        return new Intent(context, SignUpActivity.class);
     }
 }

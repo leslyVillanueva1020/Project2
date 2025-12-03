@@ -61,8 +61,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.signupTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(intent);
+                /// below commented code changes activities w/o using an Intent Factory
+//                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+//                startActivity(intent);
+                startActivity(SignUpActivity.signUpIntentFactory(LoginActivity.this));
             }
         });
     }
