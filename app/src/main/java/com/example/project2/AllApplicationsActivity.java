@@ -25,7 +25,7 @@ import com.example.project2.viewHolders.JobLogViewModel;
  * It also has buttons to send you back to landing page, details, or delete an entry.
  */
 public class AllApplicationsActivity extends AppCompatActivity {
-    // ---- SharedPreferences constants (must match Main & Landing) ----
+    // ---- SharedPreferences constants
     private static final String PREFS_NAME   = "app_prefs";
     private static final String KEY_USER_ID  = "userId";
 
@@ -44,11 +44,12 @@ public class AllApplicationsActivity extends AppCompatActivity {
         int userId = sp.getInt(KEY_USER_ID, -1);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerAllApplications);
-        adapter = new JobLogAdapter(new JobLogAdapter.JobLogDiff());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
 
         jobLogViewModel = new ViewModelProvider(this).get(JobLogViewModel.class);
+
+        adapter = new JobLogAdapter(new JobLogAdapter.JobLogDiff(), jobLogViewModel);
+        recyclerView.setAdapter(adapter);
 
         jobLogViewModel.getAllLogsById(userId).observe(this, jobLogs -> {
             adapter.submitList(jobLogs);
