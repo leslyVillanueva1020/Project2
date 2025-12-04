@@ -20,10 +20,11 @@ import java.time.format.DateTimeFormatter;
  * <br>DATE: 12/1/2025
  * <br>ASSIGNMENT: Project 02
  * Description: ViewHolder represents a single job application item within the RecyclerView. It's used by the RecyclerView to bind data.
+ * Edit button will send users to the edit activities page and delete button will delete an application entry.
  */
 public class JobLogViewHolder extends RecyclerView.ViewHolder {
     private final TextView companyTextView, roleTextView, statusTextView, dateTextView, reminderTextView;
-    private final Button detailsBtn, editBtn, deleteBtn;
+    private final Button editBtn, deleteBtn;
 
     public JobLogViewHolder(View jobLogView){
         super(jobLogView);
@@ -32,12 +33,11 @@ public class JobLogViewHolder extends RecyclerView.ViewHolder {
         statusTextView = jobLogView.findViewById(R.id.statusTextViewAppSummary);
         dateTextView = jobLogView.findViewById(R.id.dateAppliedTextViewAppSummary);
         reminderTextView = jobLogView.findViewById(R.id.reminderTextViewAppSummary);
-        detailsBtn = jobLogView.findViewById(R.id.btnViewDetailAppSummary);
         editBtn = jobLogView.findViewById(R.id.btnEditAppSummary);
         deleteBtn = jobLogView.findViewById(R.id.btnDeleteAppSummary);
     }
 
-    public void bind(JobLog job, DateTimeFormatter dateFmt) {
+    public void bind(JobLog job, DateTimeFormatter dateFmt, JobLogViewModel viewModel) {
         companyTextView.setText("Company: " + safe(job.getCompany()));
         roleTextView.setText("Role: " + safe(job.getPosition()));
 
@@ -49,26 +49,14 @@ public class JobLogViewHolder extends RecyclerView.ViewHolder {
         //TODO: IF THERE IS A REMINDER SHOW IT
         // if (job.getNextReminder() != null { set view to visible else gone }
 
-
-        //TODO: do something with buttons here??? or somewhere else not sure
-        detailsBtn.setOnClickListener(view -> {
-            //just to see if button works
-            Toast.makeText(view.getContext(), "Details of " + job.getCompany(), Toast.LENGTH_SHORT).show();
-            //TODO: will later start a new DETAILS activity
-            //something like:
-            //intent i = new Intent(view.getContext(), ApplicationDetailsActivity.class);
-            //i.putExtra("JOB_ID", job.getId());
-            //v.getContext().startActivity(i);
-        });
-
         editBtn.setOnClickListener(view -> {
             Toast.makeText(view.getContext(), "Edit " + job.getCompany(), Toast.LENGTH_SHORT).show();
-            //TODO: will later start new EDIT activity
+            //TODO: will later start new EDIT Page activity
         });
 
         deleteBtn.setOnClickListener(view -> {
             Toast.makeText(view.getContext(), "Delete " + job.getCompany(), Toast.LENGTH_SHORT).show();
-            //TODO: will later delete application
+            viewModel.delete(job);
         });
     }
 

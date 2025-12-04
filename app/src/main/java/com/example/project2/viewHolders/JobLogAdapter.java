@@ -26,8 +26,11 @@ public class JobLogAdapter extends ListAdapter<JobLog, JobLogViewHolder> {
 
     private final DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("MMM d, yyyy");
 
-    public JobLogAdapter(@NonNull DiffUtil.ItemCallback<JobLog> diffCallBack){
+    private final JobLogViewModel viewModel;
+
+    public JobLogAdapter(@NonNull DiffUtil.ItemCallback<JobLog> diffCallBack, JobLogViewModel viewModel){
         super(diffCallBack);
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -40,7 +43,7 @@ public class JobLogAdapter extends ListAdapter<JobLog, JobLogViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull JobLogViewHolder holder, int position){
         JobLog current = getItem(position);
-        holder.bind(current, dateFmt);
+        holder.bind(current, dateFmt, viewModel);
     }
 
     public static class JobLogDiff extends DiffUtil.ItemCallback<JobLog>{
