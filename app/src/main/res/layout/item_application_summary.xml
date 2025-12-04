@@ -73,18 +73,6 @@
             android:layout_marginTop="8dp"
             android:layout_gravity="end" >
 
-
-            <!--VIEW DETAILS BTN-->
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnViewDetailAppSummary"
-                android:text="View Details" />
-
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="wrap_content" />
-
             <!--EDIT BTN-->
             <Button
                 android:layout_width="wrap_content"
