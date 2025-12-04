@@ -31,7 +31,8 @@ public class LandingActivity extends AppCompatActivity {
     private CareerNestRepository repository;
     private int userId = -1;
 
-    public static Intent intentFactory(Context context, int userId) {
+    public static Intent landingIntentFactory(Context context, int userId) {
+
         Intent i = new Intent(context, LandingActivity.class);
         i.putExtra(EXTRA_USER_ID, userId);
         return i;
