@@ -80,6 +80,12 @@ public class CareerNestRepository {
         });
     }
 
+    public void deleteJobLog(JobLog jobLog){
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> {
+            jobLogDAO.delete(jobLog);
+        });
+    }
+
     public void insertUser(User... user){
         CareerNestDatabase.databaseWriteExecutor.execute(() -> {
             userDAO.insert(user);

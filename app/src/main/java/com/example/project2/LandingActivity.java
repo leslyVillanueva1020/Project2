@@ -26,7 +26,7 @@ public class LandingActivity extends AppCompatActivity {
     private CareerNestRepository repository;
     private int userId = -1;
 
-    public static Intent intentFactory(Context context, int userId) {
+    public static Intent landingIntentFactory(Context context, int userId) {
 
         Intent i = new Intent(context, LandingActivity.class);
         i.putExtra(EXTRA_USER_ID, userId);
@@ -65,7 +65,9 @@ public class LandingActivity extends AppCompatActivity {
 
         // The buttons after signing in as either admin or regular user
         binding.btnAdminArea.setOnClickListener(v -> toast("Admin Area"));
-        binding.btnViewAllApps.setOnClickListener(v -> toast("View All Applications"));
+        binding.btnViewAllApps.setOnClickListener(v -> {
+            startActivity(AllApplicationsActivity.allApplicationsIntentFactory(this));
+        });
         binding.btnAddNewApp.setOnClickListener(v -> toast("Add New Application"));
 
         binding.btnLogout.setOnClickListener(v -> {

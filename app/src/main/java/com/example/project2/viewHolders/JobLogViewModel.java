@@ -23,6 +23,8 @@ public class JobLogViewModel extends AndroidViewModel {
         repository.insertJobLog(log);
     }
 
+    public void delete(JobLog log) { repository.deleteJobLog(log);}
+
     public LiveData<List<JobLog>> getAllLogsById(int userId){
         return repository.getAllLogsByUserIdLiveData(userId);
     }
