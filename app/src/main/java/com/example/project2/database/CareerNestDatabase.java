@@ -16,7 +16,6 @@ import com.example.project2.database.typeConverters.LocalDateTypeConverter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 /**
  * @author Marissa Benenati
  * <br>COURSE: CST 338 - Software Design

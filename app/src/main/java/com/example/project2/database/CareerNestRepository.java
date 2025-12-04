@@ -104,6 +104,26 @@ public class CareerNestRepository {
         return jobLogDAO.getRecordsByUserIdLiveData(loggedInUserId);
     }
 
+    // === Add these to CareerNestRepository ===
+
+    // Return all users as LiveData (RecyclerView observes this)
+    public androidx.lifecycle.LiveData<java.util.List<User>> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+    public void insertUser(User user){
+        CareerNestDatabase.databaseWriteExecutor.execute(()->userDAO.insert(user)
+        );
+    }
+    // Promote/update a user
+    public void updateUser(User user) {
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> userDAO.update(user));
+    }
+
+    // Delete a user
+    public void deleteUser(User user) {
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> userDAO.delete(user));
+    }
+
     //unsure of whether or not to include
 //    public ArrayList<JobLog> getAllLogsByUserId(int loggedInUserId) {
 //        Future<ArrayList<JobLog>> future = CareerNestDatabase.databaseWriteExecutor.submit(
