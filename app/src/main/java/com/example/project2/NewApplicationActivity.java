@@ -1,6 +1,8 @@
 package com.example.project2;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +17,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.project2.database.entities.JobLog;
+import com.example.project2.database.entities.User;
 import com.example.project2.databinding.ActivityNewApplicationBinding;
+
+import java.time.LocalDateTime;
 
 public class NewApplicationActivity extends AppCompatActivity {
 
@@ -25,6 +31,10 @@ public class NewApplicationActivity extends AppCompatActivity {
     private ActivityNewApplicationBinding binding;
     private Button button;
 
+    private JobLog jobLog;
+    private User user;
+
+
 
 
     @Override
@@ -32,6 +42,14 @@ public class NewApplicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNewApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //this should get the use and joblog from the intent
+        user = getIntent().getParcelableExtra("user");
+        jobLog = getIntent().getParcelableExtra("jobLog");
+
+
+
+
+
         //TODO implement company name and title
 
         //creates th options for the drop down menu
@@ -62,10 +80,11 @@ public class NewApplicationActivity extends AppCompatActivity {
         binding.dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toastMaker("Application Saved!");
+                toastMaker("DATE BUTTON CLICKED!");
                 finish();
             }
         });
+        //this should run when you click CANCEL button
         binding.cancelButton.setOnClickListener(v -> finish());
     }
 
@@ -97,5 +116,39 @@ public class NewApplicationActivity extends AppCompatActivity {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
+    //this should verify if the user is logged in
+    private void verifyUser(){
+        String username = user.getUsername();
+        if(username.isEmpty()){
+            //TODO: come back and replace toast maker with actual msg thats displayed somewhere
+            toastMaker("Username may not be blank.");
+            return;
+        }
 
+
+    }
+
+    /**
+     * this should add the information into the database if it is valid
+     */
+    private void addJobLog(){
+        companyName = binding.CompanyNameEditText.getText().toString();
+        String position = binding.PositionEditText.getText().toString();
+        String status = binding.dropDownMenu.getSelectedItem().toString();
+        LocalDateTime dateApplied = LocalDateTime.parse(binding.dateButton.getText().toString());
+        int userId = user.getId();
+        //TODO needs some work
+        /*
+        if(companyName.isEmpty() || position.isEmpty() || status.isEmpty() || dateApplied.isEmpty()){
+            toastMaker("All fields must be filled out.");
+            return;
+        }
+        jobLog = new JobLog(companyName, position, status, dateApplied, userId);
+        //TODO: add joblog to database */
+
+    }
+    //this should help switch between intents
+    static Intent intentFactory(Context context){
+        return new Intent(context, NewApplicationActivity.class);
+    }
 }
