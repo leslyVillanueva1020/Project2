@@ -3,72 +3,94 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/landingRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
+    android:background="@drawable/background_gradient"
     tools:context=".LandingActivity">
 
+    <!-- Title (same look/spacing as login title) -->
     <TextView
         android:id="@+id/tvGreeting"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello"
-        android:textSize="24sp"
+        android:text="CareerNest"
+        android:textSize="48sp"
         android:textStyle="bold"
+        android:textColor="#F2F2F2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp" />
 
+    <!-- Subtitle (same tone as login subtitle) -->
     <TextView
         android:id="@+id/tvRole"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="user"
-        android:layout_marginTop="8dp"
+        android:text="Track your applications easily"
+        android:textColor="#F2F2F2"
         app:layout_constraintTop_toBottomOf="@id/tvGreeting"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
 
-    <!-- Admin button is  hidden when the app is run but you can see it when in the editor -->
-
+    <!-- Admin button stays hidden at runtime -->
     <Button
         android:id="@+id/btnAdminArea"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Admin Area"
+        android:layout_width="235dp"
+        android:layout_height="72dp"
+        android:text="Manage Users"
         android:visibility="invisible"
         tools:visibility="visible"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#8f7383"
+        android:textSize="20sp"
+        android:textColor="#FFFFFFFF"
+        android:padding="20dp"
         app:layout_constraintTop_toBottomOf="@id/tvRole"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Primary actions (same size/tint as login button) -->
     <Button
         android:id="@+id/btnViewAllApps"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="235dp"
+        android:layout_height="72dp"
         android:text="View All Applications"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#8f7383"
+        android:textSize="20sp"
+        android:textColor="#FFFFFFFF"
+        android:padding="20dp"
         app:layout_constraintTop_toBottomOf="@id/btnAdminArea"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnAddNewApp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="235dp"
+        android:layout_height="72dp"
         android:text="Add a New Application"
         android:layout_marginTop="12dp"
+        android:backgroundTint="#8f7383"
+        android:textSize="20sp"
+        android:textColor="#FFFFFFFF"
+        android:padding="20dp"
         app:layout_constraintTop_toBottomOf="@id/btnViewAllApps"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnLogout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="235dp"
+        android:layout_height="72dp"
         android:text="Logout"
         android:layout_marginTop="24dp"
+        android:backgroundTint="#8f7383"
+        android:textSize="20sp"
+        android:textColor="#FFFFFFFF"
+        android:padding="20dp"
         app:layout_constraintTop_toBottomOf="@id/btnAddNewApp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
