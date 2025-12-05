@@ -9,6 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project2">
         <activity
+            android:name=".NewApplicationActivity"
             android:name=".AllApplicationsActivity"
             android:exported="false" />
         <activity
