@@ -84,6 +84,8 @@ public class NewApplicationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addJobLog();
+
+
                 finish();
             }
         });
@@ -141,6 +143,11 @@ public class NewApplicationActivity extends AppCompatActivity {
         String status = binding.dropDownMenu.getSelectedItem().toString();
         LocalDateTime dateApplied = LocalDateTime.parse(binding.dateButton.getText().toString());
         int userId = user.getId();
+        jobLog = new JobLog(companyName, position, status, userId);
+
+        repository.insertJobLog(jobLog);
+
+
         //TODO needs some work
         /*
         if(companyName.isEmpty() || position.isEmpty() || status.isEmpty() || dateApplied.isEmpty()){
