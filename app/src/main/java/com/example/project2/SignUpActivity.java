@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.project2.database.CareerNestDatabase;
-import com.example.project2.database.UserDAO;
+import com.example.project2.database.CareerNestRepository;
 import com.example.project2.database.entities.User;
 import com.example.project2.databinding.ActivitySignUpBinding;
 
@@ -21,12 +19,12 @@ import com.example.project2.databinding.ActivitySignUpBinding;
  */
 public class SignUpActivity extends AppCompatActivity {
 
-    //private static final CareerNestDatabase INSTANCE = ;
     private ActivitySignUpBinding binding;
 
-    //private CareerNestRepository repository;
+    private CareerNestRepository repository;
 
-    //UserDAO dao = INSTANCE.userDAO();
+    static Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +32,23 @@ public class SignUpActivity extends AppCompatActivity {
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //repository = CareerNestRepository.getRepository(getApplication());
+        repository = CareerNestRepository.getRepository(getApplication());
 
         binding.buttonSignUpPage.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {addUser();
+            public void onClick(View v) {
+                addUser();
             }
         });
-//        super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_sign_up);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
+
+        /// Cancel button -> returns to LoginActivity
+        binding.buttonSignUpCancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                intent = LoginActivity.loginIntentFactory(getApplicationContext());
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -69,12 +69,18 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        User newUser = new User(username, password);
-        CareerNestDatabase db = CareerNestDatabase.getDatabase(getApplicationContext());
-        UserDAO userDAO = db.userDAO();
-        ///  TODO: figure out why new user is not being added to database
-        userDAO.insert(newUser);
-        toastMaker("Account Successfully Created");
+        repository.getUserByUserName(username).observe(this, existingUser -> {
+            if(existingUser != null){
+                toastMaker("User Already Exists");
+            }
+            else{
+                User newUser = new User(username, password);
+                repository.insertUser(newUser);
+                toastMaker("Account Successfully Created");
+                intent = LoginActivity.loginIntentFactory(getApplicationContext());
+                startActivity(intent);
+            }
+        });
     }
 
     private void toastMaker(String s) {

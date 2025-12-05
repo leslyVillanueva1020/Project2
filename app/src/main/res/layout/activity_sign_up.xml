@@ -10,50 +10,50 @@
 
     <!--SCREEN TITLE-->
     <TextView
+        android:id="@+id/titleSignUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titleSignUpTextView"
+        android:layout_marginTop="175dp"
+        android:gravity="center"
         android:text="@string/sign_up"
+        android:textColor="#F2F2F2"
         android:textSize="48sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="#F2F2F2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="175dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!--USERNAME-->
     <EditText
+        android:id="@+id/userNameSignUpEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/userNameSignUpEditText"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="75dp"
+        android:gravity="center"
         android:hint="@string/please_enter_username"
         android:inputType="text"
         android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/titleSignUpTextView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="75dp"
-        android:layout_marginHorizontal="40dp"
-        android:gravity="center"
-        android:textSize="20sp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleSignUpTextView" />
 
     <!--PASSWORD-->
     <EditText
+        android:id="@+id/passwordSignUpEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/passwordSignUpEditText"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
         android:hint="@string/please_enter_password"
         android:inputType="textPassword"
         android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/userNameSignUpEditText"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"
-        android:layout_marginHorizontal="40dp"
-        android:gravity="center"
-        android:textSize="20sp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNameSignUpEditText" />
 
     <!--SIGN UP BUTTON-->
     <Button
@@ -69,6 +69,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordSignUpEditText" />
+
+    <!--CANCEL BUTTON-->
+    <Button
+        android:id="@+id/buttonSignUpCancel"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#8a8889"
+        android:padding="20dp"
+        android:text="@string/cancel"
+        android:textColor="#e8e6e8"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignUpPage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
