@@ -66,7 +66,11 @@ public class LandingActivity extends AppCompatActivity {
         // The buttons after signing in as either admin or regular user
         binding.btnAdminArea.setOnClickListener(v -> toast("Admin Area"));
         binding.btnViewAllApps.setOnClickListener(v -> toast("View All Applications"));
-        binding.btnAddNewApp.setOnClickListener(v -> toast("Add New Application"));
+
+        //this should open the new application activity - Adrik Renteria
+        binding.btnAddNewApp.setOnClickListener(v -> {
+            startActivity(NewApplicationActivity.newAppIntentFactory(this));
+        });
 
         binding.btnLogout.setOnClickListener(v -> {
             getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().clear().apply();
