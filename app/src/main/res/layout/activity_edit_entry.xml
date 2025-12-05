@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    tools:context=".EditEntryActivity">
+
+    <!-- Title Text View -->
+    <TextView
+        android:id="@+id/editAppLogTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:text="Edit Application Log"
+        android:textColor="#F2F2F2"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--Company Label Text-->
+    <TextView
+        android:id="@+id/companyLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="Company"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editAppLogTextView"
+        app:layout_constraintVertical_bias="0.173" />
+
+    <!-- Company Edit Text -->
+    <EditText
+        android:id="@+id/companyEditText"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="start"
+        android:hint="Existing Co. Name Here"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/companyLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/companyLabelTextView" />
+
+    <!-- Position Label Text -->
+    <TextView
+        android:id="@+id/positionLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Position Title"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/companyLabelTextView" />
+
+    <!-- Position Edit Text -->
+    <EditText
+        android:id="@+id/positionEditText"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:hint="Existing Position Title Here"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/positionLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/positionLabelTextView" />
+
+    <!-- Status Label Text -->
+    <TextView
+        android:id="@+id/statusLabelTextView"
+        android:layout_width="110dp"
+        android:layout_height="93dp"
+        android:layout_marginTop="96dp"
+        android:gravity="center"
+        android:text="Application Status"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/positionLabelTextView" />
+
+    <!-- Drop Down Menu -->
+    <Spinner
+        android:id="@+id/statusDropDown"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/statusLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toEndOf="@+id/statusLabelTextView"
+        app:layout_constraintTop_toTopOf="@+id/statusLabelTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!-- Date Applied Label Text -->
+    <TextView
+        android:id="@+id/dateLabelTextView"
+        android:layout_width="126dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Date Applied"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statusLabelTextView" />
+
+    <!-- Enter Date Button-->
+    <Button
+        android:id="@+id/dateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#8f7383"
+        android:text="Enter Date"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/dateLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.364"
+        app:layout_constraintStart_toEndOf="@+id/dateLabelTextView"
+        app:layout_constraintTop_toTopOf="@id/dateLabelTextView" />
+
+    <!-- Save Changes Button -->
+    <Button
+        android:id="@+id/saveChangesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#8f7383"
+        android:text="Save Changes"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.321"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.933" />
+
+    <!-- Cancel Edit Button-->
+    <Button
+        android:id="@+id/cancelEditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="92dp"
+        android:backgroundTint="#8f7383"
+        android:text="Cancel"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/saveChangesButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/saveChangesButton"
+        app:layout_constraintTop_toTopOf="@+id/saveChangesButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
