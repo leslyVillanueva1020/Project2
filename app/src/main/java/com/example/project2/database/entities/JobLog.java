@@ -3,6 +3,7 @@ package com.example.project2.database.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.project2.database.CareerNestDatabase;
@@ -27,13 +28,24 @@ public class JobLog {
     private String status; //ex applies, interviewed, offer, rejected
     private LocalDateTime dateApplied;
     private int userId; //foreign key to User
-
+    //added this @Ignore to test
+    @Ignore
     public JobLog(String company, String position, String status, int userId) {
         this.company = company;
         this.position = position;
         this.status = status;
         this.userId = userId;
-        dateApplied = LocalDateTime.now();
+        //added this. to the front - Adrik Renteria
+        this.dateApplied = LocalDateTime.now();
+    }
+    //added this constructor - Adrik Renteria
+    public JobLog(String company, String position, String status, LocalDateTime dateApplied, int userId) {
+        this.company = company;
+        this.position = position;
+        this.status = status;
+        this.userId = userId;
+
+        this.dateApplied = dateApplied;
     }
 
     @NonNull

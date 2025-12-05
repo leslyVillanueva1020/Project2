@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,16 +27,12 @@ import java.time.LocalDateTime;
 
 public class NewApplicationActivity extends AppCompatActivity {
 
-    private String companyName = "";
-    private final String status = "";
-    private final String dateApplied = "";
     private ActivityNewApplicationBinding binding;
 
-    //TODO figure out which one I need to use for this file
-    private Button button;
-
     private JobLog jobLog;
-    private User user;
+    private static User user;
+    int userId = -1;
+    private LocalDateTime selectedDate;
 
     private CareerNestRepository repository;
 
@@ -50,12 +47,25 @@ public class NewApplicationActivity extends AppCompatActivity {
         //initialize the repository
         repository = CareerNestRepository.getRepository(getApplication());
 
-        //this should get the use and joblog from the intent
-        user = getIntent().getParcelableExtra("user");
+        //this should get the user and joblog from the intent
+        userId = getIntent().getIntExtra("EXTRA_USER_ID", -1);
+        //makes sure the userId is valid
+        if(userId == -1){
+            toastMaker("FATAL ERROR: User not found");
+            finish();
+            return;
+        }
+
+        repository.getUserByUserId(userId).observe(this, fetchedUser -> {
+            if(fetchedUser != null){
+                user = fetchedUser;
+            }else{
+                toastMaker("FATAL ERROR: User not found");
+                finish();
+            }
+                });
+
         jobLog = getIntent().getParcelableExtra("jobLog");
-
-
-        //TODO implement company name and title
 
         //creates th options for the drop down menu
         String[] status = {"Applied", "In Progress", "Rejected", "Offer, Interview"};
@@ -68,8 +78,7 @@ public class NewApplicationActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //this sets the adapter to the drop down menu
         binding.dropDownMenu.setAdapter(adapter);
-        //
-
+        //should run when you click the date button
         binding.dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,12 +87,12 @@ public class NewApplicationActivity extends AppCompatActivity {
             }
         });
         //TODO set up reminder page to connect to this
-        button = findViewById(R.id.reminderButton);
-        button.setOnClickListener( View -> {
+        Button button = findViewById(R.id.reminderButton);
+        button.setOnClickListener(View -> {
             toastMaker("Reminder Button Clicked!");
         });
 
-
+        //should run when you click save button
         button = findViewById(R.id.saveButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,8 +118,10 @@ public class NewApplicationActivity extends AppCompatActivity {
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                //sets the selected date
+                selectedDate = LocalDateTime.of(year, month + 1, dayOfMonth, 12, 0);
                 //month is 0-indexed (Jan = 0), so add 1 for display
-                String dateString = year + "." + (month + 1) + "." + dayOfMonth;
+                String dateString = year + "/" + (month + 1) + "/" + dayOfMonth;
 
                 //show toast
                 toastMaker(dateString);
@@ -143,14 +154,21 @@ public class NewApplicationActivity extends AppCompatActivity {
      * this should add the information into the database if it is valid
      */
     private boolean addJobLog(){
-        companyName = binding.CompanyNameEditText.getText().toString();
+        //makes sure the user is logged in
+        if(user == null){
+            toastMaker("User is null");
+            return false;
+        }
+
+        String companyName = binding.CompanyNameEditText.getText().toString();
         String position = binding.PositionEditText.getText().toString();
         String status = binding.dropDownMenu.getSelectedItem().toString();
-        LocalDateTime dateApplied = LocalDateTime.parse(binding.dateButton.getText().toString());
+        String dateApplied = binding.dateButton.getText().toString();
+
+        //LocalDateTime dateApplied = LocalDateTime.parse(binding.dateButton.getText().toString());
         int userId = user.getId();
 
-        //these should be the if statements
-
+        //these if statments should make sure the info isn't left blank
         if(companyName.isEmpty()){
             toastMaker("Company name may not be blank.");
             return false;
@@ -163,19 +181,25 @@ public class NewApplicationActivity extends AppCompatActivity {
             toastMaker("Status may not be blank.");
             return false;
         }
+        if(dateApplied.equals("Enter Date")){
+            toastMaker("Date may not be blank.");
+            return false;
+        }
 
 
 
         //should then add it to the repo
 
-        jobLog = new JobLog(companyName, position, status, userId);
+        jobLog = new JobLog(companyName, position, status, selectedDate, userId);
 
         repository.insertJobLog(jobLog);
         return true;
 
     }
     //this should help switch between intents
-    static Intent newAppIntentFactory(Context context){
-        return new Intent(context, NewApplicationActivity.class);
+    static Intent newAppIntentFactory(Context context, int userId){
+        //use a constant for the key
+        Intent intent = new Intent(context, NewApplicationActivity.class);intent.putExtra("EXTRA_USER_ID", userId);
+        return intent;
     }
-}
+    }

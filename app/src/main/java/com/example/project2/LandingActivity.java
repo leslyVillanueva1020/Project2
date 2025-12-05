@@ -69,7 +69,7 @@ public class LandingActivity extends AppCompatActivity {
 
         //this should open the new application activity - Adrik Renteria
         binding.btnAddNewApp.setOnClickListener(v -> {
-            startActivity(NewApplicationActivity.newAppIntentFactory(this));
+            startActivity(NewApplicationActivity.newAppIntentFactory(this, userId));
         });
 
         binding.btnLogout.setOnClickListener(v -> {
