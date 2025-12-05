@@ -13,7 +13,12 @@ import androidx.lifecycle.LiveData;
 import com.example.project2.database.CareerNestRepository;
 import com.example.project2.database.entities.User;
 import com.example.project2.databinding.ActivityLandingBinding;
-
+/**
+ * @author Estrella Ortiz
+ * <br>COURSE: CST 338 - Software Design
+ * <br>DATE: 11/15/2025
+ * <br>ASSIGNMENT: Project 02
+ */
 public class LandingActivity extends AppCompatActivity {
 
     private static final String EXTRA_USER_ID = "com.example.project2.EXTRA_USER_ID";
@@ -26,7 +31,7 @@ public class LandingActivity extends AppCompatActivity {
     private CareerNestRepository repository;
     private int userId = -1;
 
-    public static Intent intentFactory(Context context, int userId) {
+    public static Intent landingIntentFactory(Context context, int userId) {
 
         Intent i = new Intent(context, LandingActivity.class);
         i.putExtra(EXTRA_USER_ID, userId);
@@ -35,13 +40,11 @@ public class LandingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         binding = ActivityLandingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         repository = CareerNestRepository.getRepository(getApplication());
-
         userId = getIntent().getIntExtra(EXTRA_USER_ID, -1);
 
         if (userId != -1) {
@@ -54,8 +57,7 @@ public class LandingActivity extends AppCompatActivity {
                     UserWelcome();
                 }
             });
-        } else
-        {
+        } else {
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
             String uname = prefs.getString(KEY_USERNAME, "");
             boolean isAdmin = prefs.getBoolean(KEY_IS_ADMIN, false);
@@ -63,10 +65,17 @@ public class LandingActivity extends AppCompatActivity {
             UsersView(uname, isAdmin, cachedId);
         }
 
-        // The buttons after signing in as either admin or regular user
-        binding.btnAdminArea.setOnClickListener(v -> toast("Admin Area"));
-        binding.btnViewAllApps.setOnClickListener(v -> toast("View All Applications"));
+        // Updated: open AdminActivity instead of showing a toast
+        binding.btnAdminArea.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AdminActivity.class);
+            startActivity(intent);
+        });
 
+        // Updates: open View_All_Applications page
+        binding.btnViewAllApps.setOnClickListener(v -> {
+            startActivity(AllApplicationsActivity.allApplicationsIntentFactory(this));
+        });
+      
         //this should open the new application activity - Adrik Renteria
         binding.btnAddNewApp.setOnClickListener(v -> {
             startActivity(NewApplicationActivity.newAppIntentFactory(this, userId));
@@ -74,7 +83,6 @@ public class LandingActivity extends AppCompatActivity {
 
         binding.btnLogout.setOnClickListener(v -> {
             getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().clear().apply();
-            // This is what will let you go back to the login page
             startActivity(LoginActivity.loginIntentFactory(this));
             finish();
         });
@@ -100,5 +108,9 @@ public class LandingActivity extends AppCompatActivity {
         binding.btnAdminArea.setVisibility(View.INVISIBLE);
     }
 
-    private void toast(String m){ Toast.makeText(this, m, Toast.LENGTH_SHORT).show(); }
+    private void toast(String m) {
+        Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
+    }
 }
+
+

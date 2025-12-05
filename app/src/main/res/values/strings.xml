@@ -10,4 +10,8 @@
         <item>Ofer</item>
         <item>Interview</item>
     </string-array>
+    <string name="delete_user">Delete User</string>
+    <string name="manage_users">Manage Users</string>
+    <string name="search_by_username">Search by username</string>
+    <string name="back">Back</string>
 </resources>

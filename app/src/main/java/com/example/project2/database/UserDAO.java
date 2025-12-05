@@ -6,17 +6,12 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;                 // <-- make sure this import exists
 
 import com.example.project2.database.entities.User;
 
 import java.util.List;
 
-/**
- * @author Marissa Benenati
- * <br>COURSE: CST 338 - Software Design
- * <br>DATE: 11/13/2025
- * <br>ASSIGNMENT: Project 02
- */
 @Dao
 public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -25,15 +20,17 @@ public interface UserDAO {
     @Delete
     void delete(User user);
 
+    @Update
+    void update(User user);
+
     @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUsers();
-
     @Query("DELETE from " + CareerNestDatabase.USER_TABLE)
     void deleteAll();
 
-    @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " WHERE username == :username")
+    @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " WHERE username == :username LIMIT 1")
     LiveData<User> getUserByUserName(String username);
 
-    @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " WHERE id == :userId")
+    @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " WHERE id == :userId LIMIT 1")
     LiveData<User> getUserByUserId(int userId);
 }

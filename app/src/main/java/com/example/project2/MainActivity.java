@@ -1,6 +1,5 @@
 package com.example.project2;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         loginUser(savedInstanceState);
 
         if(loggedInUserId != LOGGED_OUT){
-            startActivity(LandingActivity.intentFactory(this, loggedInUserId));
+            startActivity(LandingActivity.landingIntentFactory(this, loggedInUserId));
             finish();
         }
     }
