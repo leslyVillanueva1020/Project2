@@ -47,19 +47,18 @@ public class NewApplicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNewApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //initialize the repository
+        repository = CareerNestRepository.getRepository(getApplication());
+
         //this should get the use and joblog from the intent
         user = getIntent().getParcelableExtra("user");
         jobLog = getIntent().getParcelableExtra("jobLog");
-
-
-
 
 
         //TODO implement company name and title
 
         //creates th options for the drop down menu
         String[] status = {"Applied", "In Progress", "Rejected", "Offer, Interview"};
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -78,15 +77,21 @@ public class NewApplicationActivity extends AppCompatActivity {
                 openDialog();
             }
         });
+        //TODO set up reminder page to connect to this
+        button = findViewById(R.id.reminderButton);
+        button.setOnClickListener( View -> {
+            toastMaker("Reminder Button Clicked!");
+        });
+
 
         button = findViewById(R.id.saveButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addJobLog();
+                if(addJobLog()){
+                    finish();
+                }
 
-
-                finish();
             }
         });
 
@@ -137,25 +142,36 @@ public class NewApplicationActivity extends AppCompatActivity {
     /**
      * this should add the information into the database if it is valid
      */
-    private void addJobLog(){
+    private boolean addJobLog(){
         companyName = binding.CompanyNameEditText.getText().toString();
         String position = binding.PositionEditText.getText().toString();
         String status = binding.dropDownMenu.getSelectedItem().toString();
         LocalDateTime dateApplied = LocalDateTime.parse(binding.dateButton.getText().toString());
         int userId = user.getId();
+
+        //these should be the if statements
+
+        if(companyName.isEmpty()){
+            toastMaker("Company name may not be blank.");
+            return false;
+        }
+        if(position.isEmpty()){
+            toastMaker("Position may not be blank.");
+            return false;
+        }
+        if(status.isEmpty()){
+            toastMaker("Status may not be blank.");
+            return false;
+        }
+
+
+
+        //should then add it to the repo
+
         jobLog = new JobLog(companyName, position, status, userId);
 
         repository.insertJobLog(jobLog);
-
-
-        //TODO needs some work
-        /*
-        if(companyName.isEmpty() || position.isEmpty() || status.isEmpty() || dateApplied.isEmpty()){
-            toastMaker("All fields must be filled out.");
-            return;
-        }
-        jobLog = new JobLog(companyName, position, status, dateApplied, userId);
-        //TODO: add joblog to database */
+        return true;
 
     }
     //this should help switch between intents
