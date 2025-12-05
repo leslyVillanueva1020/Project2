@@ -71,24 +71,23 @@ public class NewApplicationActivity extends AppCompatActivity {
         binding.dropDownMenu.setAdapter(adapter);
         //
 
-
+        binding.dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toastMaker("DATE BUTTON CLICKED!");
+                openDialog();
+            }
+        });
 
         button = findViewById(R.id.saveButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog();
-
-            }
-        });
-
-        binding.dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toastMaker("DATE BUTTON CLICKED!");
+                addJobLog();
                 finish();
             }
         });
+
         //this should run when you click CANCEL button
         binding.cancelButton.setOnClickListener(v -> finish());
     }
