@@ -1,22 +1,25 @@
 package com.example.project2;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project2.database.CareerNestDatabase;
+import com.example.project2.database.CareerNestRepository;
 import com.example.project2.database.JobLogDAO;
 import com.example.project2.database.entities.JobLog;
+import com.example.project2.database.typeConverters.LocalDateTypeConverter;
 import com.example.project2.databinding.ActivityEditEntryBinding;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -27,16 +30,19 @@ import java.util.Objects;
  */
 public class EditEntryActivity extends AppCompatActivity {
 
+    private CareerNestRepository repository;
     private ActivityEditEntryBinding binding;
+    /// ==============================================
     private EditText etCompanyName;
-    private EditText etPosition;
+    private EditText etPositionTitle;
     private Spinner spStatus;
     private Button btDate;
-    private DatePickerDialog dpDateApplied;
-
+    /// ==============================================
     private JobLogDAO jobDAO;
     private int jobID;
-
+    private JobLog currentJob;
+    private LocalDateTime selectedDate;
+    /// ==============================================
     String[] statusOptions = {"Applied", "In Progress", "Rejected", "Offer, Interview"};
 
     @Override
@@ -48,30 +54,18 @@ public class EditEntryActivity extends AppCompatActivity {
 
         /// Initialize EditText widgets
         etCompanyName = findViewById(R.id.companyEditText);
-        etPosition = findViewById(R.id.positionEditText);
+        etPositionTitle = findViewById(R.id.positionEditText);
 
         ///  Initialize DropDown widget
         spStatus = findViewById(R.id.statusDropDown);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, statusOptions);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spStatus.setAdapter(adapter);
 
         ///  Initialize Date button text
         btDate = findViewById(R.id.dateButton);
 
-        /// Opens Date Picker dialog via dateButton
-        btDate.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openDialog();
-            }
-        });
-
-        //dpDateApplied = findViewById(R.id.);
-
-        /// Get database instance
-        CareerNestDatabase db = CareerNestDatabase.getInstance(getApplicationContext());
-        jobDAO = db.jobLogDAO();
+        /// Get repository
+//        CareerNestDatabase db = CareerNestDatabase.getDatabase(getApplicationContext());
+//        jobDAO = db.jobLogDAO();
+        repository = CareerNestRepository.getRepository(getApplication());
 
         /// Get job log ID from intent
         jobID = getIntent().getIntExtra("JOB_ID", -1);
@@ -81,6 +75,14 @@ public class EditEntryActivity extends AppCompatActivity {
             loadJobData(jobID);
         }
 
+        /// Opens Date Picker dialog via dateButton
+        btDate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openDialog();
+            }
+        });
+
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
 //            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -88,20 +90,35 @@ public class EditEntryActivity extends AppCompatActivity {
 //        });
     }
 
+    /**
+     * Pre-populates widgets on screen with data from the Job Log being edited. Takes a Job Log ID.
+     * @param id int
+     */
     private void loadJobData(int id){
         new Thread(() -> {
-            JobLog jobCurrent = jobDAO.getJobById(id);
+            currentJob = jobDAO.getJobById(id);
 
             /// Update UI
             runOnUiThread(() -> {
-                if(jobCurrent != null){
-                    etCompanyName.setText(jobCurrent.getCompany());
-                    etPosition.setText(jobCurrent.getPosition());
-                    String setStatus = jobCurrent.getStatus();
-                    /// use helper function to get desired index for drop down selection
-                    spStatus.setSelection(getStatusPosition(spStatus, setStatus));
-                    /// TODO: figure out how to set DatePickerDialog to previously set date upon opening
+                if(currentJob != null){
+                    etCompanyName.setText(currentJob.getCompany());
+                    etPositionTitle.setText(currentJob.getPosition());
 
+                    /// get String representation of application status
+                    String statusText = currentJob.getStatus();
+                    /// use helper function to get desired index for drop down selection, using statusText
+                    int ddIndex = getStatusPosition(spStatus, statusText);
+                    if(ddIndex > -1){            // must check if helper function returned a match
+                        spStatus.setSelection(ddIndex);  // sets drop down menu to proper index
+                    }
+
+                    /// TODO: figure out how to set DatePickerDialog to previously set date upon opening
+                    LocalDateTime dateApplied = currentJob.getDateApplied();
+                    if(dateApplied != null){
+                        selectedDate = dateApplied;  // need selectedDate for displaying Date Picker
+                        updateDateButton(dateApplied);
+                    }
+                    //btDate.setText(currentJob.getDateApplied());
                 }
             });
         });
@@ -113,6 +130,7 @@ public class EditEntryActivity extends AppCompatActivity {
      */
     private int getStatusPosition(Spinner spinner, String value){
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
+        /// TODO: may need to parse / process String fetched via JobLog.getStatus prior to below search?
         if(adapter != null){
             for(int i = 0; i < adapter.getCount(); i++){
                 if(Objects.equals(adapter.getItem(i), value)){
@@ -123,7 +141,47 @@ public class EditEntryActivity extends AppCompatActivity {
         return -1;
     }
 
+    /**
+     * Uses DateTimeFormatter to handle the LocalDateTime value fetched from <code>JobLog.getDateApplied</code>.
+     * It then sets the Date Picker button text accordingly.
+     * @param date LocalDateTime
+     */
+    private void updateDateButton(LocalDateTime date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedDate = date.format(formatter);
+        btDate.setText(formattedDate);
+    }
+
     /// TODO: write openDialog() to open Date Picker to previously set date
     /// TODO: get previously set date via JobLog.getDateApplied
-    private void openDialog(){}
+    /**
+     * Opens the Date Picker Dialog. Is triggered onClick of <code>btDate</code>.
+     */
+    private void openDialog(){
+        if(selectedDate == null){
+            selectedDate = LocalDateTime.now();  // default to current system date if selectedDate is null
+        }
+
+        int year = selectedDate.getYear();
+        int month = selectedDate.getMonthValue() - 1;
+        int day = selectedDate.getDayOfMonth();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    selectedDate = LocalDateTime.of(
+                            selectedYear,
+                            selectedMonth + 1,
+                            selectedDay,
+                            selectedDate.getHour(),
+                            selectedDate.getMinute(),
+                            selectedDate.getSecond()
+                    );
+                    /// update Date Button text w/newly selected date
+                    updateDateButton(selectedDate);
+                },
+                year, month, day
+        );
+        datePickerDialog.show();
+    }
 }
