@@ -17,6 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.project2.database.CareerNestRepository;
 import com.example.project2.database.entities.JobLog;
 import com.example.project2.database.entities.User;
 import com.example.project2.databinding.ActivityNewApplicationBinding;
@@ -29,10 +30,14 @@ public class NewApplicationActivity extends AppCompatActivity {
     private final String status = "";
     private final String dateApplied = "";
     private ActivityNewApplicationBinding binding;
+
+    //TODO figure out which one I need to use for this file
     private Button button;
 
     private JobLog jobLog;
     private User user;
+
+    private CareerNestRepository repository;
 
 
 
@@ -148,7 +153,7 @@ public class NewApplicationActivity extends AppCompatActivity {
 
     }
     //this should help switch between intents
-    static Intent intentFactory(Context context){
+    static Intent newAppIntentFactory(Context context){
         return new Intent(context, NewApplicationActivity.class);
     }
 }
