@@ -71,7 +71,9 @@ public class LandingActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.btnViewAllApps.setOnClickListener(v -> toast("View All Applications"));
+        binding.btnViewAllApps.setOnClickListener(v -> {
+            startActivity(AllApplicationsActivity.allApplicationsIntentFactory(this));
+        });
         binding.btnAddNewApp.setOnClickListener(v -> toast("Add New Application"));
 
         binding.btnLogout.setOnClickListener(v -> {
