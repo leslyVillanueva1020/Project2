@@ -38,7 +38,7 @@
     <!-- Position Edit Text -->
 
     <TextView
-        android:id="@id/PositionText"
+        android:id="@+id/PositionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
