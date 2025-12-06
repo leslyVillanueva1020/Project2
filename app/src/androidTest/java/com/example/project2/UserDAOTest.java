@@ -139,4 +139,34 @@ public class UserDAOTest {
         User deletedUser = userDAO.getUserByUserId(testUser2.getId()).getValue();
         assertNull(deletedUser);
     }
+
+    /**
+     * Tests <code>DELETE ALL</code> query.
+     * @throws Exception
+     */
+    @Test
+    public void deleteAllUsers() throws Exception{
+        userDAO.insert(testUser2);
+        userDAO.insert(testUser3);
+
+        LiveData<List<User>> allUsers = userDAO.getAllUsers();
+        assertEquals(2, Objects.requireNonNull(allUsers.getValue()).size()); //using requireNonNull according to IDE recommendation
+
+        userDAO.deleteAll();
+
+        LiveData<List<User>> emptyList = userDAO.getAllUsers();
+        assertEquals(0, Objects.requireNonNull(emptyList.getValue()).size());
+    }
+
+    /**
+     * Tests <code>GET USER BY USERNAME</code> query.
+     * @throws Exception
+     */
+    @Test
+    public void getUserByUsername() throws Exception{
+        userDAO.insert(testUser4);
+        User retrievedUser = userDAO.getUserByUserName("charliebrown").getValue();
+        assertNotNull(retrievedUser);
+        assertEquals("charliebrown", retrievedUser.getUsername());
+    }
 }
