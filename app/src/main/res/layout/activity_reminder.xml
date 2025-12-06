@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:text="Due Date: "
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.264"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,11 +46,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="Time: "
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dueDateText" />
+
+    <!-- Note Text View -->
+    <TextView
+        android:id="@+id/noteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="Note"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.209"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeText" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
