@@ -16,7 +16,13 @@ import com.example.project2.databinding.ActivitySignUpBinding;
  * <br>COURSE: CST 338 - Software Design
  * <br>DATE: 12/2/2025
  * <br>ASSIGNMENT: Project 02
- */
+ * <br>==========================
+ * <br>DESCRIPTION: Activity responsible for allowing new users to set up an account
+ * that will then be added to the <code>User</code> database.
+ * Checks for empty username or password fields. Also checks the database for an existing
+ * user before creating an account under the same username.
+ * <code>CANCEL</code> button returns the user to LoginActivity.
+ * */
 public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
