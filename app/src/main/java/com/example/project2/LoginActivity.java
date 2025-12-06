@@ -7,11 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 
 import com.example.project2.database.CareerNestRepository;
@@ -44,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("app_prefs", MODE_PRIVATE);
         int cachedUserId = sp.getInt("userId", -1);
         if (cachedUserId != -1) {
-            startActivity(LandingActivity.intentFactory(this, cachedUserId));
+            startActivity(LandingActivity.landingIntentFactory(this, cachedUserId));
             finish();
             return;
         }
@@ -90,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(KEY_USERNAME, user.getUsername());
                     editor.putBoolean(KEY_IS_ADMIN, user.isAdmin());
                     editor.apply();
-                    startActivity(LandingActivity.intentFactory(this, user.getId()));
+                    startActivity(LandingActivity.landingIntentFactory(this, user.getId()));
                     //startActivity(MainActivity.mainActivityIntentFacotry(getApplicationContext(), user.getId()));
                     finish();
                 }

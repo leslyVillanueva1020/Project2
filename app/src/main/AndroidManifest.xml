@@ -11,6 +11,15 @@
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".NewApplicationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AllApplicationsActivity"
+            android:exported="false" />
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -20,8 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".AdminActivity" />
         <activity android:name=".LandingActivity" />
         <activity android:name=".MainActivity" />
+
     </application>
 
 </manifest>
