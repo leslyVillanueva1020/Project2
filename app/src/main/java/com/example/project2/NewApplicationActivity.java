@@ -203,3 +203,4 @@ public class NewApplicationActivity extends AppCompatActivity {
         return intent;
     }
     }
+
