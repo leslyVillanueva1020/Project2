@@ -1,6 +1,8 @@
 package com.example.project2;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,11 +30,15 @@ import java.util.Objects;
  * <br>COURSE: CST 338 - Software Design
  * <br>DATE: 12/4/2025
  * <br>ASSIGNMENT: Project 02
+ * <br>==========================
+ * <br>DESCRIPTION: Activity responsible for allowing users to edit an existing Job Log entry within the database.
+ * Widgets on this screen are pre-populated with data from the original log entry being edited.
+ * <code>CANCEL</code> button returns the user to AllApplicationsActivity.
  */
 public class EditEntryActivity extends AppCompatActivity {
-
     private CareerNestRepository repository;
     private ActivityEditEntryBinding binding;
+    static Intent intent;
     /// ==============================================
     private EditText etCompanyName;
     private EditText etPositionTitle;
@@ -45,6 +52,7 @@ public class EditEntryActivity extends AppCompatActivity {
     /// ==============================================
     String[] statusOptions = {"Applied", "In Progress", "Rejected", "Offer, Interview"};
 
+    /// TODO: wire 'Edit' button in AllApplicationsActivity -> this Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +91,23 @@ public class EditEntryActivity extends AppCompatActivity {
             }
         });
 
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
+        /// Save button -> update entry in table
+        //saveChangesButton = findViewById(R.id.saveChangesButton);
+        binding.saveChangesButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                saveEdits();
+            }
+        });
+
+        /// Cancel button -> returns to AllApplicationsActivity
+        binding.cancelEditButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                intent = AllApplicationsActivity.allApplicationsIntentFactory(getApplicationContext());
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -112,7 +132,7 @@ public class EditEntryActivity extends AppCompatActivity {
                         spStatus.setSelection(ddIndex);  // sets drop down menu to proper index
                     }
 
-                    /// TODO: figure out how to set DatePickerDialog to previously set date upon opening
+                    /// TODO: make sure that upon opening, DatePickerDialog is being set to the existing Date Applied value from the table
                     LocalDateTime dateApplied = currentJob.getDateApplied();
                     if(dateApplied != null){
                         selectedDate = dateApplied;  // need selectedDate for displaying Date Picker
@@ -152,8 +172,6 @@ public class EditEntryActivity extends AppCompatActivity {
         btDate.setText(formattedDate);
     }
 
-    /// TODO: write openDialog() to open Date Picker to previously set date
-    /// TODO: get previously set date via JobLog.getDateApplied
     /**
      * Opens the Date Picker Dialog. Is triggered onClick of <code>btDate</code>.
      */
@@ -184,4 +202,42 @@ public class EditEntryActivity extends AppCompatActivity {
         );
         datePickerDialog.show();
     }
+
+    /**
+     * Updates JobLog table with the edited <code>Job Log</code> object values.
+     */
+    private void saveEdits(){
+        if(currentJob == null){
+            return;
+        }
+
+        /// update Job Log object with the new values
+        currentJob.setCompany(etCompanyName.getText().toString());
+        currentJob.setPosition(etPositionTitle.getText().toString());
+        currentJob.setStatus(spStatus.getSelectedItem().toString());
+        if(selectedDate != null){
+            currentJob.setDateApplied(selectedDate);
+        }
+
+        /// save to database on background thread
+        new Thread(() -> {
+            jobDAO.update(currentJob);
+
+            runOnUiThread(() -> {
+                toastMaker("Application Entry Updated");
+                intent = AllApplicationsActivity.allApplicationsIntentFactory(getApplicationContext());
+                startActivity(intent);
+                //finish();
+            });
+        });
+    }
+
+    private void toastMaker(String s){
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    }
+
+    static Intent editEntryIntentFactory(Context context){
+        return new Intent(context, EditEntryActivity.class);
+    }
+
 }
