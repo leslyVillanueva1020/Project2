@@ -24,74 +24,90 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.159" />
 
-    <!-- Due Date Text -->
 
 
-
+    <!-- Time Text Viw -->
     <TextView
         android:id="@+id/dueDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="84dp"
         android:text="Due Date: "
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.264"
+        app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReminderText" />
-    <!-- Time Text Viw -->
-    <TextView
-        android:id="@+id/timeText"
+    <!-- Note Edit Text-->
+    <EditText
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:gravity="center"
+        android:hint="Enter Note"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/noteText"
+        app:layout_constraintTop_toBottomOf="@+id/noteText"
+        app:layout_constraintTop_toTopOf="@id/noteText" />
+    <!-- Date Button -->
+    <Button
+        android:id="@+id/dateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="Time: "
-        android:textSize="20sp"
+        android:text="Enter Date"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/dueDateText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.27"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dueDateText" />
-
+        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintStart_toEndOf="@+id/dueDateText"
+        app:layout_constraintTop_toTopOf="@id/dueDateText"
+        app:layout_constraintVertical_bias="0.523" />
+    <!-- Time Button -->
+    <Button
+        android:id="@+id/timeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Time"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/timeText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toEndOf="@+id/timeText"
+        app:layout_constraintTop_toTopOf="@id/timeText"
+        app:layout_constraintVertical_bias="0.761" />
     <!-- Note Text View -->
     <TextView
         android:id="@+id/noteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="80dp"
         android:text="Note"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.209"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeText" />
-
-    <!-- Note Edit Text-->
-    <EditText
-        android:layout_width="196dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:gravity="center"
-        android:hint="Enter Note"
-        android:inputType="textAutoComplete"
-        android:padding="8dp"
-        android:textSize="15sp"
-        app:layout_constraintTop_toTopOf="@id/noteText"
-        app:layout_constraintStart_toEndOf="@+id/noteText"
-        app:layout_constraintTop_toBottomOf="@+id/noteText"
-        />
-    <!-- Save Button -->
-    <!-- Cancel Button-->
-    <Button
-        android:id="@+id/saveButton"
+    <!-- Time Text View -->
+    <TextView
+        android:id="@+id/timeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="60dp"
+        android:text="Time: "
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.269"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.876" />
+        app:layout_constraintTop_toBottomOf="@+id/dueDateText" />
+
+
+
+
+
+    <!-- Cancel Button-->
+
 
     <Button
         android:id="@+id/cancelButton"
@@ -101,25 +117,35 @@
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="@id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.673"
+        app:layout_constraintHorizontal_bias="0.945"
         app:layout_constraintStart_toEndOf="@id/saveButton"
         app:layout_constraintTop_toTopOf="@+id/saveButton"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <!-- Enter Date Button-->
+        app:layout_constraintVertical_bias="1.0" />
+    <!-- Save Button -->
     <Button
-        android:id="@+id/dateButton"
+        android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/dueDateText"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Enter Date"
-        android:textSize="15dp"
-        app:layout_constraintHorizontal_bias="0.364"
-        app:layout_constraintStart_toEndOf="@+id/dueDateText"
-        app:layout_constraintTop_toTopOf="@id/dueDateText" />
-
-
+        app:layout_constraintHorizontal_bias="0.315"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.807" />
+    <!-- Title Text View -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Reminder"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#F2F2F2"
+        app:layout_constraintBottom_toTopOf="@+id/ReminderText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
