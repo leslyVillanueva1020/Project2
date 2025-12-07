@@ -95,6 +95,16 @@ public class JobLogDAOTest {
             assertEquals("Interviewing", updated.getStatus());
         }
 
+        @Test
+        public void delete_removesJobLog() {
+            JobLog job = new JobLog(
+                    "Google",
+                    "Junior Web Developer",
+                    "Applied",
+                    LocalDateTime.of(2025, 1, 10, 12, 0),
+                    1
+            );
+
 
 
 
