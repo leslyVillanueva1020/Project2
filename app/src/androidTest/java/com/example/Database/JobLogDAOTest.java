@@ -62,7 +62,7 @@ import java.util.List;
 
         //Tests the update feature
         @Test
-        public void insert_sameId_updatesJobLog_insteadOfDuplicating() {
+        public void updateJobLog() {
             JobLog job = new JobLog(
                     "Google",
                     "Junior Web Developer",
@@ -71,25 +71,25 @@ import java.util.List;
                     1
             );
 
-            // Insert first time
+            // Insert once
             jobLogDAO.insert(job);
 
-            // Retrieve from DB to get auto-generated ID
+            // Retrieve from DB (now has auto-generated ID)
             JobLog saved = jobLogDAO.getAllRecords().get(0);
 
-            // Modify fields (update)
+            // Make some changes (simulate an update)
             saved.setPosition("Senior Web Developer");
             saved.setStatus("Interviewing");
 
-            // Insert updated version -> REPLACE strategy updates the row
+            // Re-insert to trigger REPLACE (update behavior)
             jobLogDAO.insert(saved);
 
-            // Verify only one row exists
+            // Confirm only one row exists
             List<JobLog> result = jobLogDAO.getAllRecords();
             assertEquals(1, result.size());
 
+            // Confirm values were updated
             JobLog updated = result.get(0);
-
             assertEquals("Senior Web Developer", updated.getPosition());
             assertEquals("Interviewing", updated.getStatus());
         }
