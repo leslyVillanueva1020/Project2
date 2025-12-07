@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.project2.database.entities.JobLog;
 
@@ -34,4 +35,12 @@ public interface JobLogDAO {
 
     @Query("SELECT * FROM " + CareerNestDatabase.JOB_LOG_TABLE + " WHERE userId = :loggedInUserId ORDER BY dateApplied DESC")
     LiveData<List<JobLog>> getRecordsByUserIdLiveData(int loggedInUserId);
+
+    ///  === Below methods are for use with EditEntryActivity ===
+    /// @author Marissa Benenati
+    @Query("SELECT * FROM " + CareerNestDatabase.JOB_LOG_TABLE + " WHERE id = :jobId")
+    JobLog getJobById(int jobId);
+
+    @Update
+    void update(JobLog jobLog);
 }

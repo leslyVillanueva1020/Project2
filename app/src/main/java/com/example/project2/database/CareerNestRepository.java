@@ -124,6 +124,16 @@ public class CareerNestRepository {
         CareerNestDatabase.databaseWriteExecutor.execute(() -> userDAO.delete(user));
     }
 
+    ///  === Below method is for use with EditEntryActivity ===
+    /// @author Marissa Benenati
+    public JobLog getJobById(int id) {
+        return jobLogDAO.getJobById(id);
+    }
+
+    public void updateJob(JobLog jobLog){
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> jobLogDAO.update(jobLog));
+    }
+
     //unsure of whether or not to include
 //    public ArrayList<JobLog> getAllLogsByUserId(int loggedInUserId) {
 //        Future<ArrayList<JobLog>> future = CareerNestDatabase.databaseWriteExecutor.submit(

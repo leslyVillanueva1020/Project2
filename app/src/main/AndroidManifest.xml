@@ -17,6 +17,9 @@
             android:exported="false" />
 
         <activity
+            android:name=".EditEntryActivity"
+            android:exported="false" />
+        <activity
             android:name=".AllApplicationsActivity"
             android:exported="false" />
 
