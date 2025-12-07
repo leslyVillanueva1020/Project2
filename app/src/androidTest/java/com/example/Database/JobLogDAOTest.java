@@ -105,11 +105,15 @@ public class JobLogDAOTest {
                     LocalDateTime.of(2025, 1, 10, 12, 0),
                     1
             );
+            jobLogDAO.insert(job);
 
+            int beforeSize = jobLogDAO.getAllRecords().size();
 
+            jobLogDAO.delete(jobLogDAO.getAllRecords().get(0));
 
-
-
+            int afterSize = jobLogDAO.getAllRecords().size();
+            assertEquals(beforeSize - 1, afterSize);
+        }
     }
 
 
