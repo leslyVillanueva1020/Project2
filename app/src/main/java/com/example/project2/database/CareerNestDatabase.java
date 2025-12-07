@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.project2.database.entities.JobLog;
 import com.example.project2.database.entities.User;
+import com.example.project2.database.entities.Reminder;
 import com.example.project2.database.typeConverters.LocalDateTypeConverter;
 
 import java.util.concurrent.ExecutorService;
@@ -29,6 +30,9 @@ public abstract class CareerNestDatabase extends RoomDatabase{
     public static final String USER_TABLE = "UserTable";
     private static final String DATABASE_NAME = "CareerNestDatabase";
     public static final String JOB_LOG_TABLE = "JobLogTable";
+    //added Reminder Table - Adrik Renteria
+   public static final String REMINDER_TABLE = "ReminderTable";
+
 
     private static volatile CareerNestDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -71,4 +75,7 @@ public abstract class CareerNestDatabase extends RoomDatabase{
     };
     public abstract UserDAO userDAO();
     public abstract JobLogDAO jobLogDAO();
+    //added Reminder DAO - Adrik Renteria
+    public abstract ReminderDAO reminderDAO();
+
 }
