@@ -71,8 +71,15 @@ public class LandingActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.btnViewAllApps.setOnClickListener(v -> toast("View All Applications"));
-        binding.btnAddNewApp.setOnClickListener(v -> toast("Add New Application"));
+        // Updates: open View_All_Applications page
+        binding.btnViewAllApps.setOnClickListener(v -> {
+            startActivity(AllApplicationsActivity.allApplicationsIntentFactory(this));
+        });
+      
+        //this should open the new application activity - Adrik Renteria
+        binding.btnAddNewApp.setOnClickListener(v -> {
+            startActivity(NewApplicationActivity.newAppIntentFactory(this, userId));
+        });
 
         binding.btnLogout.setOnClickListener(v -> {
             getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().clear().apply();

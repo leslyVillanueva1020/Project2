@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    tools:context=".NewApplicationActivity">
+    <!--Company Name Text-->
+    <TextView
+        android:id="@+id/CompanyNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/company_name"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
+    <!-- Company Name Edit Text -->
+    <EditText
+        android:id="@+id/CompanyNameEditText"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:hint="@string/enter_name"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/CompanyNameText"
+        app:layout_constraintStart_toEndOf="@id/CompanyNameText" />
+    <!-- Position text view -->
+    <!-- Position Edit Text -->
+
+    <TextView
+        android:id="@+id/PositionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Position Title:"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CompanyNameText" />
+
+    <EditText
+        android:id="@+id/PositionEditText"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:hint="Enter Position"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/PositionText"
+        app:layout_constraintStart_toEndOf="@id/PositionText" />
+    <!-- Application Status Text -->
+    <!-- Drop Down Menu -->
+    <TextView
+        android:id="@id/ApplicationStatusText"
+        android:layout_width="110dp"
+        android:layout_height="93dp"
+        android:layout_marginTop="96dp"
+        android:gravity="center"
+        android:text="Application Status"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PositionText" />
+    <!-- Date Applied Text View -->
+    <TextView
+        android:id="@+id/DateAppliedText"
+        android:layout_width="126dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Date Applied:"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ApplicationStatusText" />
+    <!-- Drop Down Menu -->
+    <Spinner
+        android:id="@+id/dropDownMenu"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/ApplicationStatusText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toEndOf="@+id/ApplicationStatusText"
+        app:layout_constraintTop_toTopOf="@+id/ApplicationStatusText"
+        app:layout_constraintVertical_bias="0.521" />
+    <!-- Date Applied Text View -->
+
+    <!-- Reminder Text View -->
+    <!-- Reminder button -->
+    <TextView
+        android:id="@+id/ReminderText"
+        android:layout_width="72dp"
+        android:layout_height="31dp"
+        android:text="Reminder:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.197"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/DateAppliedText"
+        app:layout_constraintVertical_bias="0.377" />
+
+    <!-- Save Button -->
+
+    <Button
+        android:id="@+id/reminderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ Add Reminder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.302"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ReminderText"
+        app:layout_constraintVertical_bias="0.0" />
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.321"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.933" />
+    <!-- Cancel Button-->
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="92dp"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="@id/saveButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/saveButton"
+        app:layout_constraintTop_toTopOf="@+id/saveButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!-- Enter Date Button-->
+    <Button
+        android:id="@+id/dateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/DateAppliedText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Enter Date"
+        android:textSize="15dp"
+        app:layout_constraintHorizontal_bias="0.364"
+        app:layout_constraintStart_toEndOf="@+id/DateAppliedText"
+        app:layout_constraintTop_toTopOf="@id/DateAppliedText" />
+    <!-- Title Text View -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Application"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#F2F2F2"
+        app:layout_constraintBottom_toTopOf="@+id/CompanyNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,21 @@
 <resources>
     <string name="app_name">Project2</string>
+    <string name="create_account">Create Account</string>
+    <string name="please_enter_password">Please Enter Password</string>
+    <string name="please_enter_username">Please Enter Username</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="don_t_have_an_account_sign_up"><u>Don\'t have an account? Sign Up</u></string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_company_name">Enter Company Name</string>
+    <string name="company_name">Company Name:</string>
+    <string name="enter_name">Enter Name</string>
+    <string-array name="my_dropdown_items">
+        <item>In Progress</item>
+        <item>Applied</item>
+        <item>Rejected</item>
+        <item>Ofer</item>
+        <item>Interview</item>
+    </string-array>
     <string name="delete_user">Delete User</string>
     <string name="manage_users">Manage Users</string>
     <string name="search_by_username">Search by username</string>
