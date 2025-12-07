@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
@@ -45,14 +46,24 @@ public class UserDAOTest {
     User testUser3;
     User testUser4;
     String pswd = "multipass";
+    static String TAG = "UserDAO_Test";
 
     @Before
     public void createDb(){
+        Log.d(TAG, "Creating database...");
         Context context = ApplicationProvider.getApplicationContext();
+        assertNotNull("Context is null", context);
+        Log.d(TAG, "Context obtained: " + context);
+
         db = Room.inMemoryDatabaseBuilder(context, CareerNestDatabase.class)
-                //.allowMainThreadQueries()
+                .allowMainThreadQueries()
                 .build();
+        assertNotNull("Database is null", db);
+        Log.d(TAG, "Database created");
+
         userDAO = db.userDAO();
+        assertNotNull("UserDAO is null", userDAO);
+        Log.d(TAG,"UserDAO successfully obtained");
 
         testUser1 = new User("johndoe", "password");
         testUser2 = new User("alicesmith", "passwordA");
@@ -62,7 +73,10 @@ public class UserDAOTest {
 
     @After
     public void closeDb() throws IOException {
-        db.close();
+        if(db != null){
+            db.close();
+            Log.d(TAG, "Database closed successfully");
+        }
     }
 
     /**
@@ -71,6 +85,9 @@ public class UserDAOTest {
      */
     @Test
     public void insertAndGetUser() throws Exception{
+        Log.d(TAG, "Starting insertAndGetUser test...");
+
+        assertNotNull("testUser1 is null", testUser1);
         userDAO.insert(testUser1);
         //repository.insertUser(testUser1);
         User retrievedUser = userDAO.getUserByUserId(testUser1.getId()).getValue();
