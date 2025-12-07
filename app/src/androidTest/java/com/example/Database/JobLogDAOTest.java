@@ -43,6 +43,7 @@ public class JobLogDAOTest {
             db.close();
         }
 
+        // Tests the insert
         @Test
         public void insert_addsJobLog() {
             int beforeSize = jobLogDAO.getAllRecords().size();
@@ -60,6 +61,17 @@ public class JobLogDAOTest {
             int afterSize = jobLogDAO.getAllRecords().size();
             assertEquals(beforeSize + 1, afterSize);
         }
+
+        //Tests the update feature
+        @Test
+        public void insert_sameId_updatesJobLog_insteadOfDuplicating() {
+            JobLog job = new JobLog(
+                    "Google",
+                    "Junior Web Developer",
+                    "Applied",
+                    LocalDateTime.of(2025, 1, 10, 12, 0),
+                    1
+            );
 
 
 
