@@ -55,11 +55,11 @@ public class JobLogViewHolder extends RecyclerView.ViewHolder {
 
         editBtn.setOnClickListener(view -> {
             Toast.makeText(view.getContext(), "Edit " + job.getCompany(), Toast.LENGTH_SHORT).show();
-            //TODO: will later start new EDIT Page activity
             Context context = itemView.getContext();
             SharedPreferences prefs = context.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
             int userId = prefs.getInt("userId", -1);
-            Intent intent = EditEntryActivity.editEntryIntentFactory(context, userId);
+            int jobId = job.getId();
+            Intent intent = EditEntryActivity.editEntryIntentFactory(context, userId, jobId);
             context.startActivity(intent);
         });
 

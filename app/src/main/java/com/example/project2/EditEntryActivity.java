@@ -34,6 +34,7 @@ import java.util.Objects;
  */
 public class EditEntryActivity extends AppCompatActivity {
     private static final String EXTRA_USER_ID = "com.example.project2.EXTRA_USER_ID";
+    private static final String EXTRA_JOB_ID = "EXTRA_JOB_ID";
     private CareerNestRepository repository;
     private ActivityEditEntryBinding binding;
     static Intent intent;
@@ -48,33 +49,41 @@ public class EditEntryActivity extends AppCompatActivity {
     private JobLog currentJob;
     private LocalDateTime selectedDate;
     /// ==============================================
-    String[] statusOptions = {"Applied", "In Progress", "Rejected", "Offer, Interview"};
 
-    /// TODO: wire 'Edit' button in AllApplicationsActivity -> this Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //setContentView(R.layout.activity_edit_entry);
 
         /// Initialize EditText widgets
         etCompanyName = findViewById(R.id.companyEditText);
         etPositionTitle = findViewById(R.id.positionEditText);
 
-        ///  Initialize DropDown widget
+        ///  Initialize DropDown widget - code snippet by Adrik Renteria ===============
         spStatus = findViewById(R.id.statusDropDown);
+        String[] status = {"Applied", "In Progress", "Rejected", "Offer, Interview"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_item,
+                status
+        );
+        //this sets the layout for the drop down menu
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //this sets the adapter to the drop down menu
+        spStatus.setAdapter(adapter);
+        /// ============================================================================
 
         ///  Initialize Date button text
         btDate = findViewById(R.id.dateButton);
 
         /// Get repository
-//        CareerNestDatabase db = CareerNestDatabase.getDatabase(getApplicationContext());
-//        jobDAO = db.jobLogDAO();
         repository = CareerNestRepository.getRepository(getApplication());
 
         /// Get job log ID from intent
-        jobID = getIntent().getIntExtra("JOB_ID", -1);
+        jobID = getIntent().getIntExtra(EXTRA_JOB_ID, -1);
+        /// TODO: comment out below line before demoing app
+        toastMaker("Job ID is:" + jobID);
 
         /// Load existing data using helper function loadJobData(int)
         if(jobID != -1){
@@ -90,7 +99,6 @@ public class EditEntryActivity extends AppCompatActivity {
         });
 
         /// Save button -> update entry in table
-        //saveChangesButton = findViewById(R.id.saveChangesButton);
         binding.saveChangesButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -114,7 +122,7 @@ public class EditEntryActivity extends AppCompatActivity {
      */
     private void loadJobData(int id){
         new Thread(() -> {
-            currentJob = jobDAO.getJobById(id);
+            currentJob = repository.getJobById(id);
 
             /// Update UI
             runOnUiThread(() -> {
@@ -130,16 +138,16 @@ public class EditEntryActivity extends AppCompatActivity {
                         spStatus.setSelection(ddIndex);  // sets drop down menu to proper index
                     }
 
-                    /// TODO: make sure that upon opening, DatePickerDialog is being set to the existing Date Applied value from the table
                     LocalDateTime dateApplied = currentJob.getDateApplied();
                     if(dateApplied != null){
                         selectedDate = dateApplied;  // need selectedDate for displaying Date Picker
                         updateDateButton(dateApplied);
+                        /// TODO: change date format on button to be consistent across both EditEntry and NewApplication (Should be MM/dd/yyyy)
                     }
                     //btDate.setText(currentJob.getDateApplied());
                 }
             });
-        });
+        }).start();
     }
 
     /**
@@ -148,7 +156,6 @@ public class EditEntryActivity extends AppCompatActivity {
      */
     private int getStatusPosition(Spinner spinner, String value){
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
-        /// TODO: may need to parse / process String fetched via JobLog.getStatus prior to below search?
         if(adapter != null){
             for(int i = 0; i < adapter.getCount(); i++){
                 if(Objects.equals(adapter.getItem(i), value)){
@@ -219,25 +226,31 @@ public class EditEntryActivity extends AppCompatActivity {
 
         /// save to database on background thread
         new Thread(() -> {
-            jobDAO.update(currentJob);
-
-            runOnUiThread(() -> {
-                toastMaker("Application Entry Updated");
-                intent = AllApplicationsActivity.allApplicationsIntentFactory(getApplicationContext());
-                startActivity(intent);
-                //finish();
-            });
-        });
+            try {
+                repository.updateJob(currentJob);
+                runOnUiThread(() -> {
+                    toastMaker("Application Entry Updated");
+                    intent = AllApplicationsActivity.allApplicationsIntentFactory(getApplicationContext());
+                    startActivity(intent);
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    toastMaker("Error saving changes: " + e.getMessage());
+                    e.printStackTrace();
+                });
+            }
+        }).start();
     }
 
     private void toastMaker(String s){
         Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 
-    public static Intent editEntryIntentFactory(Context context, int userId){
-        Intent i = new Intent(context, EditEntryActivity.class);
-        i.putExtra(EXTRA_USER_ID, userId);
-        return i;
+    public static Intent editEntryIntentFactory(Context context, int userId, int jobId){
+        Intent intent = new Intent(context, EditEntryActivity.class);
+        intent.putExtra(EXTRA_USER_ID, userId);
+        intent.putExtra(EXTRA_JOB_ID, jobId);
+        return intent;
     }
 
 }
