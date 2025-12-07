@@ -71,25 +71,26 @@ import java.util.List;
                     1
             );
 
-            // First insert
+            // Insert first time
             jobLogDAO.insert(job);
 
-            // Load from DB to get the generated ID
-            List<JobLog> firstList = jobLogDAO.getAllRecords();
-            assertEquals(1, firstList.size());
-            JobLog saved = firstList.get(0);
+            // Retrieve from DB to get auto-generated ID
+            JobLog saved = jobLogDAO.getAllRecords().get(0);
 
-            // Change some fields
-            saved.setPosition("Junior Web Developer");
+            // Modify fields (update)
+            saved.setPosition("Senior Web Developer");
             saved.setStatus("Interviewing");
 
-            // Insert again with same ID  Replace
+            // Insert updated version -> REPLACE strategy updates the row
+            jobLogDAO.insert(saved);
 
-            List<JobLog> secondList = jobLogDAO.getAllRecords();
-            assertEquals(1, secondList.size());  // No duplicates
+            // Verify only one row exists
+            List<JobLog> result = jobLogDAO.getAllRecords();
+            assertEquals(1, result.size());
 
-            JobLog updated = secondList.get(0);
-            assertEquals("Junior Web Developer", updated.getPosition());
+            JobLog updated = result.get(0);
+
+            assertEquals("Senior Web Developer", updated.getPosition());
             assertEquals("Interviewing", updated.getStatus());
         }
 
