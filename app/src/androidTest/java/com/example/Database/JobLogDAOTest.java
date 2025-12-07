@@ -73,6 +73,28 @@ public class JobLogDAOTest {
                     1
             );
 
+            // First insert
+            jobLogDAO.insert(job);
+
+            // Load from DB to get the generated ID
+            List<JobLog> firstList = jobLogDAO.getAllRecords();
+            assertEquals(1, firstList.size());
+            JobLog saved = firstList.get(0);
+
+            // Change some fields
+            saved.setPosition("Senior Web Developer");
+            saved.setStatus("Interviewing");
+
+            // Insert again with same ID  Replace
+
+            List<JobLog> secondList = jobLogDAO.getAllRecords();
+            assertEquals(1, secondList.size());  // No duplicates
+
+            JobLog updated = secondList.get(0);
+            assertEquals("Senior Web Developer", updated.getPosition());
+            assertEquals("Interviewing", updated.getStatus());
+        }
+
 
 
 
