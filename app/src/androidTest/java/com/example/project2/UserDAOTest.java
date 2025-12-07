@@ -61,6 +61,7 @@ public class UserDAOTest {
         assertNotNull("Database is null", db);
         Log.d(TAG, "Database created");
 
+        //repository = CareerNestRepository.getRepository(getApplication());
         userDAO = db.userDAO();
         assertNotNull("UserDAO is null", userDAO);
         Log.d(TAG,"UserDAO successfully obtained");
@@ -92,10 +93,12 @@ public class UserDAOTest {
         //repository.insertUser(testUser1);
         User retrievedUser = userDAO.getUserByUserId(testUser1.getId()).getValue();
 
-        assertNotNull(retrievedUser);
+        assertNotNull("Retrieved user is null", retrievedUser);
 
         assertEquals("johndoe", retrievedUser.getUsername());
         assertEquals("password1", retrievedUser.getPassword());
+
+        Log.d(TAG, "insertAndGetUser test passed");
     }
 
     /**
@@ -109,7 +112,7 @@ public class UserDAOTest {
         userDAO.insert(testUser4);
 
         LiveData<List<User>> allUsers = userDAO.getAllUsers();
-
+        assertNotNull("User list is null", allUsers);
         assertEquals(3, Objects.requireNonNull(allUsers.getValue()).size()); //using requireNonNull according to IDE recommendation
     }
 
@@ -122,24 +125,24 @@ public class UserDAOTest {
         /// Test for username update
         userDAO.insert(testUser1);
         User retrievedUser = userDAO.getUserByUserId(testUser1.getId()).getValue();
-        assertNotNull(retrievedUser);
+        assertNotNull("Retrieved user is null", retrievedUser);
         retrievedUser.setUsername("korbendallas");
         userDAO.update(retrievedUser);
 
         User updatedUser = userDAO.getUserByUserId(testUser1.getId()).getValue();
-        assertNotNull(updatedUser);
+        assertNotNull("Updated user is null", updatedUser);
         assertEquals("korbendallas", updatedUser.getUsername());
 
 
         /// Test for password update
         userDAO.insert(testUser4);
         User retrievedUser2 = userDAO.getUserByUserId(testUser4.getId()).getValue();
-        assertNotNull(retrievedUser2);
+        assertNotNull("Retrieved user 2 is null", retrievedUser2);
         retrievedUser2.setPassword(pswd);
         userDAO.update(retrievedUser2);
 
         User updatedUser2 = userDAO.getUserByUserId(testUser4.getId()).getValue();
-        assertNotNull(updatedUser2);
+        assertNotNull("Updated user 2 is null", updatedUser2);
         assertEquals("multipass", updatedUser2.getPassword());
     }
 
@@ -151,7 +154,7 @@ public class UserDAOTest {
     public void deleteUser() throws Exception{
         userDAO.insert(testUser2);
         User retrievedUser = userDAO.getUserByUserId(testUser2.getId()).getValue();
-        assertNotNull(retrievedUser);
+        assertNotNull("Retrieved user is null", retrievedUser);
         userDAO.delete(retrievedUser);
         User deletedUser = userDAO.getUserByUserId(testUser2.getId()).getValue();
         assertNull(deletedUser);
@@ -183,7 +186,7 @@ public class UserDAOTest {
     public void getUserByUsername() throws Exception{
         userDAO.insert(testUser4);
         User retrievedUser = userDAO.getUserByUserName("charliebrown").getValue();
-        assertNotNull(retrievedUser);
+        assertNotNull("Retrieved user is null", retrievedUser);
         assertEquals("charliebrown", retrievedUser.getUsername());
     }
 }
