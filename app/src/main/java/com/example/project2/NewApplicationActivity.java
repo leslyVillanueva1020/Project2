@@ -90,6 +90,9 @@ public class NewApplicationActivity extends AppCompatActivity {
         Button button = findViewById(R.id.reminderButton);
         button.setOnClickListener(View -> {
             toastMaker("Reminder Button Clicked!");
+            Intent intent = new Intent(this, ReminderActivity.class);
+            intent.putExtra("EXTRA_USER_ID", userId);
+            startActivity(intent);
         });
 
         //should run when you click save button
@@ -199,7 +202,8 @@ public class NewApplicationActivity extends AppCompatActivity {
     //this should help switch between intents
     static Intent newAppIntentFactory(Context context, int userId){
         //use a constant for the key
-        Intent intent = new Intent(context, NewApplicationActivity.class);intent.putExtra("EXTRA_USER_ID", userId);
+        Intent intent = new Intent(context, NewApplicationActivity.class);
+        intent.putExtra("EXTRA_USER_ID", userId);
         return intent;
     }
     }

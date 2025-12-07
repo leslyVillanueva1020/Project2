@@ -40,6 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ReminderText" />
     <!-- Note Edit Text-->
     <EditText
+        android:id="@+id/noteEditText"
         android:layout_width="196dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
