@@ -27,6 +27,7 @@ public class CareerNestRepository {
     private final JobLogDAO jobLogDAO;
     private final UserDAO userDAO;
     private ArrayList<JobLog> allLogs;
+    private ArrayList<User> allUsers;
     private static CareerNestRepository repository;
 
     public CareerNestRepository(Application application){
@@ -34,6 +35,7 @@ public class CareerNestRepository {
         this.jobLogDAO = db.jobLogDAO();
         this.userDAO = db.userDAO();
         this.allLogs = (ArrayList<JobLog>) this.jobLogDAO.getAllRecords();
+        this.allUsers = (ArrayList<User>) this.userDAO.getAllUsersList();
     }
 
     public static CareerNestRepository getRepository(Application application){

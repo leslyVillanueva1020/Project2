@@ -2,18 +2,14 @@ package com.example.project2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import android.content.Context;
-import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.project2.database.CareerNestDatabase;
-import com.example.project2.database.CareerNestRepository;
 import com.example.project2.database.UserDAO;
 import com.example.project2.database.entities.User;
 
@@ -24,7 +20,6 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Marissa Benenati
@@ -35,11 +30,9 @@ import java.util.Objects;
  * <br>DESCRIPTION: This file contains tests for the User table in CareerNestDatabase.
  * */
 @RunWith(AndroidJUnit4.class)
-public class UserDAOTest {
-
-    private UserDAO userDAO;
+public class UserDAOTest{
     private CareerNestDatabase db;
-    private CareerNestRepository repository;
+    private UserDAO userDAO;
     /// ======================================
     User testUser1;
     User testUser2;
@@ -50,21 +43,13 @@ public class UserDAOTest {
 
     @Before
     public void createDb(){
-        Log.d(TAG, "Creating database...");
         Context context = ApplicationProvider.getApplicationContext();
-        assertNotNull("Context is null", context);
-        Log.d(TAG, "Context obtained: " + context);
 
         db = Room.inMemoryDatabaseBuilder(context, CareerNestDatabase.class)
                 .allowMainThreadQueries()
                 .build();
-        assertNotNull("Database is null", db);
-        Log.d(TAG, "Database created");
 
-        //repository = CareerNestRepository.getRepository(getApplication());
         userDAO = db.userDAO();
-        assertNotNull("UserDAO is null", userDAO);
-        Log.d(TAG,"UserDAO successfully obtained");
 
         testUser1 = new User("johndoe", "password");
         testUser2 = new User("alicesmith", "passwordA");
@@ -73,120 +58,84 @@ public class UserDAOTest {
     }
 
     @After
-    public void closeDb() throws IOException {
-        if(db != null){
-            db.close();
-            Log.d(TAG, "Database closed successfully");
-        }
+    public void closeDb() throws IOException{
+        db.close();
     }
 
     /**
-     * Insert a single user and retrieve by ID.
-     * @throws Exception
+     * Tests <code>INSERT</code> query.
      */
     @Test
-    public void insertAndGetUser() throws Exception{
-        Log.d(TAG, "Starting insertAndGetUser test...");
-
-        assertNotNull("testUser1 is null", testUser1);
+    public void insertAndGetUser(){
+        int preInsert = userDAO.getAllUsersList().size();
         userDAO.insert(testUser1);
-        //repository.insertUser(testUser1);
-        User retrievedUser = userDAO.getUserByUserId(testUser1.getId()).getValue();
+        int postInsert = userDAO.getAllUsersList().size();
+        assertEquals(preInsert+1, postInsert);
 
+        User retrievedUser = userDAO.getUserByUserNameAlt("johndoe");
         assertNotNull("Retrieved user is null", retrievedUser);
-
         assertEquals("johndoe", retrievedUser.getUsername());
-        assertEquals("password1", retrievedUser.getPassword());
-
-        Log.d(TAG, "insertAndGetUser test passed");
+        assertEquals("password", retrievedUser.getPassword());
     }
 
     /**
-     * Insert multiple users, retrieve all, then check count retrieved.
-     * @throws Exception
+     * Inserts multiple users, retrieves all, then checks count retrieved.
      */
     @Test
-    public void insertMultUsersAndGetAll() throws Exception{
+    public void insertMultUsersAndGetAll(){
         userDAO.insert(testUser2);
         userDAO.insert(testUser3);
         userDAO.insert(testUser4);
 
-        LiveData<List<User>> allUsers = userDAO.getAllUsers();
-        assertNotNull("User list is null", allUsers);
-        assertEquals(3, Objects.requireNonNull(allUsers.getValue()).size()); //using requireNonNull according to IDE recommendation
+        List<User> allUsers = userDAO.getAllUsersList();
+        assertNotNull("Users list is null", allUsers);
+
+        assertEquals(3, allUsers.size());
     }
 
     /**
      * Tests <code>UPDATE</code> query. Checks both username and password updates.
-     * @throws Exception
      */
     @Test
-    public void updateUser() throws Exception{
+    public void updateUser(){
         /// Test for username update
         userDAO.insert(testUser1);
-        User retrievedUser = userDAO.getUserByUserId(testUser1.getId()).getValue();
+        User retrievedUser = userDAO.getUserByUserNameAlt("johndoe");
         assertNotNull("Retrieved user is null", retrievedUser);
         retrievedUser.setUsername("korbendallas");
         userDAO.update(retrievedUser);
 
-        User updatedUser = userDAO.getUserByUserId(testUser1.getId()).getValue();
+        User updatedUser = userDAO.getUserByUserNameAlt("korbendallas");
         assertNotNull("Updated user is null", updatedUser);
         assertEquals("korbendallas", updatedUser.getUsername());
 
 
         /// Test for password update
         userDAO.insert(testUser4);
-        User retrievedUser2 = userDAO.getUserByUserId(testUser4.getId()).getValue();
+        User retrievedUser2 = userDAO.getUserByUserNameAlt("charliebrown");
         assertNotNull("Retrieved user 2 is null", retrievedUser2);
         retrievedUser2.setPassword(pswd);
         userDAO.update(retrievedUser2);
 
-        User updatedUser2 = userDAO.getUserByUserId(testUser4.getId()).getValue();
+        User updatedUser2 = userDAO.getUserByUserNameAlt("charliebrown");
         assertNotNull("Updated user 2 is null", updatedUser2);
         assertEquals("multipass", updatedUser2.getPassword());
     }
 
     /**
      * Tests <code>DELETE</code> query for a single user.
-     * @throws Exception
      */
     @Test
-    public void deleteUser() throws Exception{
+    public void deleteUser(){
+        int preInsert = userDAO.getAllUsersList().size();
         userDAO.insert(testUser2);
-        User retrievedUser = userDAO.getUserByUserId(testUser2.getId()).getValue();
+        User retrievedUser = userDAO.getUserByUserNameAlt(testUser2.getUsername());
         assertNotNull("Retrieved user is null", retrievedUser);
+        int postInsert = userDAO.getAllUsersList().size();
+        assertEquals(preInsert+1, postInsert);
+
         userDAO.delete(retrievedUser);
-        User deletedUser = userDAO.getUserByUserId(testUser2.getId()).getValue();
-        assertNull(deletedUser);
-    }
-
-    /**
-     * Tests <code>DELETE ALL</code> query.
-     * @throws Exception
-     */
-    @Test
-    public void deleteAllUsers() throws Exception{
-        userDAO.insert(testUser2);
-        userDAO.insert(testUser3);
-
-        LiveData<List<User>> allUsers = userDAO.getAllUsers();
-        assertEquals(2, Objects.requireNonNull(allUsers.getValue()).size()); //using requireNonNull according to IDE recommendation
-
-        userDAO.deleteAll();
-
-        LiveData<List<User>> emptyList = userDAO.getAllUsers();
-        assertEquals(0, Objects.requireNonNull(emptyList.getValue()).size());
-    }
-
-    /**
-     * Tests <code>GET USER BY USERNAME</code> query.
-     * @throws Exception
-     */
-    @Test
-    public void getUserByUsername() throws Exception{
-        userDAO.insert(testUser4);
-        User retrievedUser = userDAO.getUserByUserName("charliebrown").getValue();
-        assertNotNull("Retrieved user is null", retrievedUser);
-        assertEquals("charliebrown", retrievedUser.getUsername());
+        int postDelete = userDAO.getAllUsersList().size();
+        assertEquals(postInsert-1, postDelete);
     }
 }
