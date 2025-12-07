@@ -95,6 +95,7 @@ public class JobLogDAOTest {
             assertEquals("Interviewing", updated.getStatus());
         }
 
+        // Tests the delete
         @Test
         public void delete_removesJobLog() {
             JobLog job = new JobLog(
