@@ -80,7 +80,7 @@ import java.util.List;
             JobLog saved = firstList.get(0);
 
             // Change some fields
-            saved.setPosition("Senior Web Developer");
+            saved.setPosition("Junior Web Developer");
             saved.setStatus("Interviewing");
 
             // Insert again with same ID  Replace
@@ -89,7 +89,7 @@ import java.util.List;
             assertEquals(1, secondList.size());  // No duplicates
 
             JobLog updated = secondList.get(0);
-            assertEquals("Senior Web Developer", updated.getPosition());
+            assertEquals("Junior Web Developer", updated.getPosition());
             assertEquals("Interviewing", updated.getStatus());
         }
 
