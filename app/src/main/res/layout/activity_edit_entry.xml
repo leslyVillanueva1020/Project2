@@ -8,12 +8,12 @@
     android:background="@drawable/background_gradient"
     tools:context=".EditEntryActivity">
 
-    <!-- Title Text View -->
+    <!-- SCREEN TITLE -->
     <TextView
         android:id="@+id/editAppLogTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="150dp"
         android:text="Edit Application Log"
         android:textColor="#F2F2F2"
         android:textSize="35sp"
@@ -22,22 +22,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--Company Label Text-->
+    <!-- 'COMPANY' LABEL -->
     <TextView
         android:id="@+id/companyLabelTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:gravity="start"
         android:text="Company"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editAppLogTextView"
-        app:layout_constraintVertical_bias="0.173" />
+        app:layout_constraintVertical_bias="0" />
 
-    <!-- Company Edit Text -->
+    <!-- 'COMPANY' EDIT TEXT -->
     <EditText
         android:id="@+id/companyEditText"
         android:layout_width="196dp"
@@ -51,27 +52,27 @@
         app:layout_constraintBaseline_toBaselineOf="@id/companyLabelTextView"
         app:layout_constraintStart_toEndOf="@id/companyLabelTextView" />
 
-    <!-- Position Label Text -->
+    <!-- 'POSITION' LABEL -->
     <TextView
         android:id="@+id/positionLabelTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="start"
         android:text="Position Title"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/companyLabelTextView" />
 
-    <!-- Position Edit Text -->
+    <!-- 'POSITION' EDIT TEXT -->
     <EditText
         android:id="@+id/positionEditText"
         android:layout_width="196dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:gravity="center"
+        android:gravity="start"
         android:hint="Existing Position Title Here"
         android:inputType="textAutoComplete"
         android:padding="8dp"
@@ -79,47 +80,47 @@
         app:layout_constraintBaseline_toBaselineOf="@id/positionLabelTextView"
         app:layout_constraintStart_toEndOf="@id/positionLabelTextView" />
 
-    <!-- Status Label Text -->
+    <!-- 'APPLICATION STATUS' LABEL -->
     <TextView
         android:id="@+id/statusLabelTextView"
-        android:layout_width="110dp"
-        android:layout_height="93dp"
-        android:layout_marginTop="96dp"
-        android:gravity="center"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="start"
         android:text="Application Status"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/positionLabelTextView" />
 
-    <!-- Drop Down Menu -->
+    <!-- DROP DOWN MENU -->
     <Spinner
         android:id="@+id/statusDropDown"
-        android:layout_width="126dp"
-        android:layout_height="wrap_content"
+        android:layout_width="196dp"
+        android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/statusLabelTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toEndOf="@+id/statusLabelTextView"
         app:layout_constraintTop_toTopOf="@+id/statusLabelTextView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Date Applied Label Text -->
+    <!-- 'DATE APPLIED' LABEL -->
     <TextView
         android:id="@+id/dateLabelTextView"
         android:layout_width="126dp"
         android:layout_height="32dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="start"
         android:text="Date Applied"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statusLabelTextView" />
 
-    <!-- Enter Date Button-->
+    <!-- 'ENTER DATE' BUTTON -->
     <Button
         android:id="@+id/dateButton"
         android:layout_width="wrap_content"
@@ -129,39 +130,39 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/dateLabelTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.364"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/dateLabelTextView"
         app:layout_constraintTop_toTopOf="@id/dateLabelTextView" />
 
-    <!-- Save Changes Button -->
+    <!-- 'SAVE CHANGES' BUTTON -->
     <Button
         android:id="@+id/saveChangesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:backgroundTint="#8f7383"
+        android:layout_marginTop="-86dp"
         android:text="Save Changes"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.321"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933" />
+        app:layout_constraintTop_toBottomOf="@id/dateLabelTextView" />
 
-    <!-- Cancel Edit Button-->
+    <!-- 'CANCEL EDIT' BUTTON -->
     <Button
         android:id="@+id/cancelEditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="92dp"
-        android:backgroundTint="#8f7383"
+        android:layout_centerInParent="true"
+        android:backgroundTint="#8a8889"
         android:text="Cancel"
+        android:textColor="#e8e6e8"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@id/saveChangesButton"
+        android:layout_marginTop="-76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/saveChangesButton"
-        app:layout_constraintTop_toTopOf="@+id/saveChangesButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/saveChangesButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

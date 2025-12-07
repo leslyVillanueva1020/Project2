@@ -7,18 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.project2.database.CareerNestDatabase;
 import com.example.project2.database.CareerNestRepository;
 import com.example.project2.database.JobLogDAO;
 import com.example.project2.database.entities.JobLog;
-import com.example.project2.database.typeConverters.LocalDateTypeConverter;
 import com.example.project2.databinding.ActivityEditEntryBinding;
 
 import java.time.LocalDateTime;
@@ -36,6 +33,7 @@ import java.util.Objects;
  * <code>CANCEL</code> button returns the user to AllApplicationsActivity.
  */
 public class EditEntryActivity extends AppCompatActivity {
+    private static final String EXTRA_USER_ID = "com.example.project2.EXTRA_USER_ID";
     private CareerNestRepository repository;
     private ActivityEditEntryBinding binding;
     static Intent intent;
@@ -236,8 +234,10 @@ public class EditEntryActivity extends AppCompatActivity {
         Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 
-    static Intent editEntryIntentFactory(Context context){
-        return new Intent(context, EditEntryActivity.class);
+    public static Intent editEntryIntentFactory(Context context, int userId){
+        Intent i = new Intent(context, EditEntryActivity.class);
+        i.putExtra(EXTRA_USER_ID, userId);
+        return i;
     }
 
 }
