@@ -74,26 +74,25 @@ import java.util.List;
             // Insert once
             jobLogDAO.insert(job);
 
-            // Retrieve from DB (now has auto-generated ID)
+            // Retrieve from DB
             JobLog saved = jobLogDAO.getAllRecords().get(0);
 
-            // Make some changes (simulate an update)
+            // Make some changes
             saved.setPosition("Senior Web Developer");
             saved.setStatus("Interviewing");
 
-            // Re-insert to trigger REPLACE (update behavior)
+            // Test the replace
             jobLogDAO.insert(saved);
 
-            // Confirm only one row exists
+            // Confirms only one row exists
             List<JobLog> result = jobLogDAO.getAllRecords();
             assertEquals(1, result.size());
 
-            // Confirm values were updated
+            // Confirms values were updated
             JobLog updated = result.get(0);
             assertEquals("Senior Web Developer", updated.getPosition());
             assertEquals("Interviewing", updated.getStatus());
         }
-
         // Tests the delete
         @Test
         public void delete_removesJobLog() {
