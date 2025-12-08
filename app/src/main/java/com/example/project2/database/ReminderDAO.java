@@ -23,7 +23,7 @@ import java.util.List;
 @Dao
 public interface ReminderDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Reminder reminder);
+    void insert(Reminder... reminder);
 
     @Delete
     void delete(Reminder reminder);
@@ -31,7 +31,7 @@ public interface ReminderDAO {
     @Update
     void update(Reminder reminder);
     @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE)
-    List<Reminder> getAllReminders();
+    LiveData<List<Reminder>> getAllReminders();
     @Query("DELETE from " + CareerNestDatabase.REMINDER_TABLE)
     void deleteAll();
 
@@ -39,7 +39,7 @@ public interface ReminderDAO {
     @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE userId == :userId")
     LiveData<List<Reminder>> getRemindersByUserId(int userId);
 
-    @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE id == :reminderId")
+    @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE id == :reminderId LIMIT 1")
     LiveData<Reminder> getReminderById(int reminderId);
 
 

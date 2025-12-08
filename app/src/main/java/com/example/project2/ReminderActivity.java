@@ -27,6 +27,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.project2.database.CareerNestRepository;
+import com.example.project2.database.entities.Reminder;
 import com.example.project2.database.entities.User;
 import com.example.project2.databinding.ActivityReminderBinding;
 
@@ -50,6 +51,10 @@ public class ReminderActivity extends AppCompatActivity {
         binding = ActivityReminderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         repository = CareerNestRepository.getRepository(getApplication());
+
+        binding.saveButton.setOnClickListener(v -> {
+            saveReminder();
+        });
 
         userId = getIntent().getIntExtra("EXTRA_USER_ID", -1);
         //makes sure the userId is valid
@@ -84,7 +89,7 @@ public class ReminderActivity extends AppCompatActivity {
             }
         });
         Button button = findViewById(R.id.saveButton);
-
+        /*
         //should run when you click save button
         button = findViewById(R.id.saveButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +101,7 @@ public class ReminderActivity extends AppCompatActivity {
                 saveReminder();
 
             }
-        });
+        }); */
 
         //this should run when you click CANCEL button
         binding.cancelButton.setOnClickListener(v -> finish());
@@ -156,13 +161,22 @@ public class ReminderActivity extends AppCompatActivity {
             return;
         }
 
+        Reminder reminder = new Reminder(userId, 0, finalDateTime, note);
+        //TODO: Add Reminder)
+        reminder.setTime(finalDateTime);
+        repository.insertReminder(reminder);
+
+
         //TODO: Save to Database
+        //should save the reminder to the database
 
         toastMaker("Reminder set for: " + finalDateTime.toString());
 
         //close screen
-       // finish();
+       finish();
     }
+
+
 
     private void toastMaker(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();

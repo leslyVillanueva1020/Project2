@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.project2.MainActivity;
 import com.example.project2.database.entities.JobLog;
+import com.example.project2.database.entities.Reminder;
 import com.example.project2.database.entities.User;
 
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ public class CareerNestRepository {
     private static final String TAG = "CAREER_NEST_REPO";
     private final JobLogDAO jobLogDAO;
     private final UserDAO userDAO;
+    private final ReminderDAO reminderDAO;
     private ArrayList<JobLog> allLogs;
     private static CareerNestRepository repository;
 
@@ -34,6 +35,7 @@ public class CareerNestRepository {
         this.jobLogDAO = db.jobLogDAO();
         this.userDAO = db.userDAO();
         this.allLogs = (ArrayList<JobLog>) this.jobLogDAO.getAllRecords();
+        reminderDAO = null;
     }
 
     public static CareerNestRepository getRepository(Application application){
@@ -107,7 +109,7 @@ public class CareerNestRepository {
     // === Add these to CareerNestRepository ===
 
     // Return all users as LiveData (RecyclerView observes this)
-    public androidx.lifecycle.LiveData<java.util.List<User>> getAllUsers() {
+    public LiveData<List<User>> getAllUsers() {
         return userDAO.getAllUsers();
     }
     public void insertUser(User user){
@@ -123,6 +125,42 @@ public class CareerNestRepository {
     public void deleteUser(User user) {
         CareerNestDatabase.databaseWriteExecutor.execute(() -> userDAO.delete(user));
     }
+
+
+    //reminder methods
+    public void insertReminder(Reminder... reminder){
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> {
+            reminderDAO.insert(reminder);
+        });
+    }
+    public void deleteReminder(Reminder reminder){
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> {
+            reminderDAO.delete(reminder);
+        });
+    }
+    public void updateReminder(Reminder reminder){
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> {
+            reminderDAO.update(reminder);
+        });
+    }
+
+    public LiveData<List<Reminder>> getAllReminders() {
+        return reminderDAO.getAllReminders();
+    }
+    public void deleteAll() {
+        CareerNestDatabase.databaseWriteExecutor.execute(reminderDAO::deleteAll);
+    }
+
+    public LiveData<List<Reminder>> getRemindersByUserId(int userId){
+        return reminderDAO.getRemindersByUserId(userId);
+    }
+
+    public LiveData<Reminder> getReminderById(int reminderId){
+        return reminderDAO.getReminderById(reminderId);
+    }
+
+
+
 
     //unsure of whether or not to include
 //    public ArrayList<JobLog> getAllLogsByUserId(int loggedInUserId) {
