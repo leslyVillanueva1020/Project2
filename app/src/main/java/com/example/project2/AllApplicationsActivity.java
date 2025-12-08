@@ -48,7 +48,7 @@ public class AllApplicationsActivity extends AppCompatActivity {
 
         jobLogViewModel = new ViewModelProvider(this).get(JobLogViewModel.class);
 
-        adapter = new JobLogAdapter(new JobLogAdapter.JobLogDiff(), jobLogViewModel);
+        adapter = new JobLogAdapter(new JobLogAdapter.JobLogDiff(), jobLogViewModel, this);
         recyclerView.setAdapter(adapter);
 
         jobLogViewModel.getAllLogsById(userId).observe(this, jobLogs -> {

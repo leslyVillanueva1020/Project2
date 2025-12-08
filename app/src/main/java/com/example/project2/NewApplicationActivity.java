@@ -82,7 +82,6 @@ public class NewApplicationActivity extends AppCompatActivity {
         binding.dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toastMaker("DATE BUTTON CLICKED!");
                 openDialog();
             }
         });
@@ -91,19 +90,19 @@ public class NewApplicationActivity extends AppCompatActivity {
         Button button = findViewById(R.id.reminderButton);
         button.setOnClickListener(View -> {
 
-            //if we already have a saved JobLog with an id, use it
+            // if we already have a saved JobLog with an id, use it
             if(jobLog != null && jobLog.getId() != 0){
                 Intent intent = ReminderActivity.reminderIntentFactory(
                         NewApplicationActivity.this,
                         userId,
-                        jobLog.getId()
+                        jobLog.getId()   // MUST be non-zero
                 );
                 startActivity(intent);
                 finish();
                 return;
             }
 
-            //otherwise, build new joblog from input
+            // otherwise, build new joblog from input
             JobLog build = buildJobLogFromInput();
             if(build == null){
                 return;
@@ -111,7 +110,7 @@ public class NewApplicationActivity extends AppCompatActivity {
 
             jobLog = build;
 
-            //insert and synchronously get the applicationId from repo
+            // insert and synchronously get the applicationId from repo
             int newAppId = repository.insertJobLogAndReturnId(jobLog);
             if(newAppId == -1){
                 toastMaker("Error saving applicaiton. Please try again.");
@@ -126,6 +125,7 @@ public class NewApplicationActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
 
         //should run when you click save button
         Button saveBtn = findViewById(R.id.saveButton);
@@ -157,9 +157,6 @@ public class NewApplicationActivity extends AppCompatActivity {
                 selectedDate = LocalDateTime.of(year, month + 1, dayOfMonth, 12, 0);
                 //month is 0-indexed (Jan = 0), so add 1 for display
                 String dateString = year + "/" + (month + 1) + "/" + dayOfMonth;
-
-                //show toast
-                toastMaker(dateString);
 
                 //update the text on the button to show the selected date
                 binding.dateButton.setText(dateString);

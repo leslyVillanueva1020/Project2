@@ -137,19 +137,18 @@ public class CareerNestRepository {
     }
 
     public int insertJobLogAndReturnId(JobLog jobLog){
-        Future<?> future = CareerNestDatabase.databaseWriteExecutor.submit(()-> {
-            jobLogDAO.insert(jobLog);
+        Future<Integer> future = CareerNestDatabase.databaseWriteExecutor.submit(()-> {
+            long rowId = jobLogDAO.insert(jobLog);
+           return (int) rowId;
         });
 
         try{
-            future.get();
+            return future.get();
         } catch (ExecutionException | InterruptedException e){
             e.printStackTrace();
             Log.e(TAG, "Error inserting joblog", e);
             return -1;
         }
-
-        return jobLog.getId();
     }
 
     public void updateReminder(Reminder reminder){
@@ -160,9 +159,7 @@ public class CareerNestRepository {
 
     public void deleteReminder(Reminder reminder){
         CareerNestDatabase.databaseWriteExecutor.execute(()-> {
-            CareerNestDatabase.databaseWriteExecutor.execute(()-> {
                 reminderDAO.delete(reminder);
-            });
         });
     }
 
@@ -172,6 +169,20 @@ public class CareerNestRepository {
 
     public LiveData<Reminder> getReminderById(int reminderId){
         return reminderDAO.getReminderById(reminderId);
+    }
+
+    public LiveData<Reminder> getReminderByApplicationId(int applicationId) {
+        return reminderDAO.getReminderByApplicationId(applicationId);
+    }
+
+    public void deleteJobLogAndReminders(JobLog jobLog){
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> {
+            //delete any reminders tied to this application
+            reminderDAO.deleteByApplicationId(jobLog.getId());
+
+            //then delete joblog itself
+            jobLogDAO.delete(jobLog);
+        });
     }
 
 

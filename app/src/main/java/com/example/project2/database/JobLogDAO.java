@@ -22,7 +22,7 @@ import java.util.List;
 @Dao
 public interface JobLogDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(JobLog jobLog);
+    long insert(JobLog jobLog);
 
     @Delete
     void delete(JobLog jobLog);
