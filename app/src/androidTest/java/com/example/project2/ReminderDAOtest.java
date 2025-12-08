@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -115,6 +116,49 @@ public class ReminderDAOtest {
         int afterSize = reminderDAO.getAllReminders().size();
         assertEquals(beforeSize - 1, afterSize);
 
+    }
+
+    @Test
+    public void deleteByApplicationId() {
+        Reminder r1 = new Reminder(
+                1,
+                1,  // applicationId = 1
+                LocalDateTime.now(),
+                "App1 - User1"
+        );
+        Reminder r2 = new Reminder(
+                1,
+                2,  // applicationId = 2
+                LocalDateTime.now(),
+                "App2 - User1"
+        );
+
+        reminderDAO.insert(r1);
+        reminderDAO.insert(r2);
+
+        reminderDAO.deleteByApplicationId(1);
+
+        List<Reminder> remaining = reminderDAO.getAllReminders(); //1 should remain
+        assertEquals(1, remaining.size());
+
+        Reminder only = remaining.get(0);
+        assertEquals(2, only.getApplicationId());
+        assertEquals("App2 - User1", only.getNote());
+    }
+
+    @Test
+    public void getReminderById() {
+        Reminder reminder = new Reminder(
+                3,
+                30,
+                LocalDateTime.now(),
+                "Some Reminder"
+        );
+
+        reminderDAO.insert(reminder);
+
+        LiveData<Reminder> liveData = reminderDAO.getReminderById(1);
+        assertNotNull(liveData);
     }
 
 }
