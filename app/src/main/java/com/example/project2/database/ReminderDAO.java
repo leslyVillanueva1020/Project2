@@ -35,11 +35,10 @@ public interface ReminderDAO {
     @Query("DELETE from " + CareerNestDatabase.REMINDER_TABLE)
     void deleteAll();
 
-
-    @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE userId == :userId")
+    @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE userId = :userId")
     LiveData<List<Reminder>> getRemindersByUserId(int userId);
 
-    @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE id == :reminderId")
+    @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE id = :reminderId")
     LiveData<Reminder> getReminderById(int reminderId);
 
 

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.project2.database.CareerNestDatabase;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -15,7 +17,7 @@ import java.util.Objects;
  * Description: this is the Reminder entity, it should store
  * a reminder associated to an application
  */
-@Entity(tableName = "reminder")
+@Entity(tableName = CareerNestDatabase.REMINDER_TABLE)
 public class Reminder {
     @PrimaryKey(autoGenerate = true)
     private int id;

@@ -27,6 +27,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.project2.database.CareerNestRepository;
+import com.example.project2.database.entities.Reminder;
 import com.example.project2.database.entities.User;
 import com.example.project2.databinding.ActivityReminderBinding;
 
@@ -39,6 +40,7 @@ public class ReminderActivity extends AppCompatActivity {
 
     private static User user;
     int userId = -1;
+    private int applicationId = -1;
     private LocalDate selectedDate;
     private LocalTime selectedTime;
     private CareerNestRepository repository;
@@ -52,9 +54,10 @@ public class ReminderActivity extends AppCompatActivity {
         repository = CareerNestRepository.getRepository(getApplication());
 
         userId = getIntent().getIntExtra("EXTRA_USER_ID", -1);
+        applicationId = getIntent().getIntExtra("EXTRA_APPLICATION_ID", -1);
         //makes sure the userId is valid
-        if(userId == -1){
-            toastMaker("FATAL ERROR: User not found");
+        if(userId == -1 || applicationId == -1){
+            toastMaker("FATAL ERROR: User not found or Invalid Application");
             finish();
             return;
         }
@@ -156,21 +159,29 @@ public class ReminderActivity extends AppCompatActivity {
             return;
         }
 
-        //TODO: Save to Database
+        if (userId == -1 || applicationId == -1){
+            toastMaker("FATAL ERROR: Missing user/application id");
+            return;
+        }
+
+        Reminder reminder = new Reminder(userId, applicationId, finalDateTime, note);
+        //insert via repository
+        repository.insertReminder(reminder);
 
         toastMaker("Reminder set for: " + finalDateTime.toString());
-
-        //close screen
-       // finish();
+        finish();
     }
 
     private void toastMaker(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
-    static Intent reminderIntentFactory(Context context, int userId){
+    static Intent reminderIntentFactory(Context context, int userId, int applicationId){
         //use a constant for the key
         Intent intent = new Intent(context, ReminderActivity.class);
         intent.putExtra("EXTRA_USER_ID", userId);
+
+        //want to tie reminder to specific application
+        intent.putExtra("EXTRA_APPLICATION_ID", applicationId);
         return intent;
     }
 }

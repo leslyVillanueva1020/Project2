@@ -74,7 +74,7 @@ public class NewApplicationActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,
                 status
         );
-        //this setst he layout for the drop down menu
+        //this sets the layout for the drop down menu
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //this sets the adapter to the drop down menu
         binding.dropDownMenu.setAdapter(adapter);
@@ -86,18 +86,50 @@ public class NewApplicationActivity extends AppCompatActivity {
                 openDialog();
             }
         });
-        //TODO set up reminder page to connect to this
+
+        //wiring reminderIntentFactory to button
         Button button = findViewById(R.id.reminderButton);
         button.setOnClickListener(View -> {
-            toastMaker("Reminder Button Clicked!");
-            Intent intent = new Intent(this, ReminderActivity.class);
-            intent.putExtra("EXTRA_USER_ID", userId);
+
+            //if we already have a saved JobLog with an id, use it
+            if(jobLog != null && jobLog.getId() != 0){
+                Intent intent = ReminderActivity.reminderIntentFactory(
+                        NewApplicationActivity.this,
+                        userId,
+                        jobLog.getId()
+                );
+                startActivity(intent);
+                finish();
+                return;
+            }
+
+            //otherwise, build new joblog from input
+            JobLog build = buildJobLogFromInput();
+            if(build == null){
+                return;
+            }
+
+            jobLog = build;
+
+            //insert and synchronously get the applicationId from repo
+            int newAppId = repository.insertJobLogAndReturnId(jobLog);
+            if(newAppId == -1){
+                toastMaker("Error saving applicaiton. Please try again.");
+                return;
+            }
+
+            Intent intent = ReminderActivity.reminderIntentFactory(
+                    NewApplicationActivity.this,
+                    userId,
+                    newAppId
+            );
             startActivity(intent);
+            finish();
         });
 
         //should run when you click save button
-        button = findViewById(R.id.saveButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button saveBtn = findViewById(R.id.saveButton);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(addJobLog()){
@@ -150,55 +182,63 @@ public class NewApplicationActivity extends AppCompatActivity {
             return;
         }
 
-
     }
 
     /**
      * this should add the information into the database if it is valid
      */
     private boolean addJobLog(){
-        //makes sure the user is logged in
-        if(user == null){
-            toastMaker("User is null");
+        JobLog built = buildJobLogFromInput();
+        if(built == null){
             return false;
+        }
+
+        jobLog = built;
+        repository.insertJobLog(jobLog);
+        return true;
+
+    }
+
+    /**
+     * Helper method builds a JobLog from current UI fields or returns null
+     */
+    private JobLog buildJobLogFromInput() {
+        if (user == null) {
+            toastMaker("User is null");
+            return null;
         }
 
         String companyName = binding.CompanyNameEditText.getText().toString();
         String position = binding.PositionEditText.getText().toString();
         String status = binding.dropDownMenu.getSelectedItem().toString();
         String dateApplied = binding.dateButton.getText().toString();
+        int userIdFromUser = user.getId();
 
-        //LocalDateTime dateApplied = LocalDateTime.parse(binding.dateButton.getText().toString());
-        int userId = user.getId();
-
-        //these if statments should make sure the info isn't left blank
-        if(companyName.isEmpty()){
+        if (companyName.isEmpty()) {
             toastMaker("Company name may not be blank.");
-            return false;
+            return null;
         }
-        if(position.isEmpty()){
+        if (position.isEmpty()) {
             toastMaker("Position may not be blank.");
-            return false;
+            return null;
         }
-        if(status.isEmpty()){
+        if (status.isEmpty()) {
             toastMaker("Status may not be blank.");
-            return false;
+            return null;
         }
-        if(dateApplied.equals("Enter Date")){
+        if (dateApplied.equals("Enter Date")) {
             toastMaker("Date may not be blank.");
-            return false;
+            return null;
+        }
+        if (selectedDate == null) {
+            toastMaker("Please select a date.");
+            return null;
         }
 
-
-
-        //should then add it to the repo
-
-        jobLog = new JobLog(companyName, position, status, selectedDate, userId);
-
-        repository.insertJobLog(jobLog);
-        return true;
-
+        return new JobLog(companyName, position, status, selectedDate, userIdFromUser);
     }
+
+
     //this should help switch between intents
     static Intent newAppIntentFactory(Context context, int userId){
         //use a constant for the key
