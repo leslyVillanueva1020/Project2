@@ -82,8 +82,6 @@ public class EditEntryActivity extends AppCompatActivity {
 
         /// Get job log ID from intent
         jobID = getIntent().getIntExtra(EXTRA_JOB_ID, -1);
-        /// TODO: comment out below line before demoing app
-        toastMaker("Job ID is:" + jobID);
 
         /// Load existing data using helper function loadJobData(int)
         if(jobID != -1){

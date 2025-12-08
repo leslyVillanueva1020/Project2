@@ -74,7 +74,6 @@ public class ReminderActivity extends AppCompatActivity {
         binding.dateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                toastMaker("DATE BUTTON CLICKED!");
                 openDateDialog();
             }
         });
@@ -82,7 +81,6 @@ public class ReminderActivity extends AppCompatActivity {
         binding.timeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                toastMaker("TIME BUTTON CLICKED!");
                 openTimeDialog();
             }
         });
@@ -93,11 +91,7 @@ public class ReminderActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO implement the save button
-
-                toastMaker("Save Button Clicked!");
                 saveReminder();
-
             }
         });
 
@@ -165,10 +159,9 @@ public class ReminderActivity extends AppCompatActivity {
         }
 
         Reminder reminder = new Reminder(userId, applicationId, finalDateTime, note);
+
         //insert via repository
         repository.insertReminder(reminder);
-
-        toastMaker("Reminder set for: " + finalDateTime.toString());
         finish();
     }
 

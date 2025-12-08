@@ -41,5 +41,11 @@ public interface ReminderDAO {
     @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE id = :reminderId")
     LiveData<Reminder> getReminderById(int reminderId);
 
+    // Get the (first) reminder for a specific application
+    @Query("SELECT * FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE applicationId = :applicationId LIMIT 1")
+    LiveData<Reminder> getReminderByApplicationId(int applicationId);
 
+    // Delete all reminders for a specific application
+    @Query("DELETE FROM " + CareerNestDatabase.REMINDER_TABLE + " WHERE applicationId = :applicationId")
+    void deleteByApplicationId(int applicationId);
 }

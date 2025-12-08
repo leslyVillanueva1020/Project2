@@ -41,7 +41,7 @@ public class JobLogViewHolder extends RecyclerView.ViewHolder {
         deleteBtn = jobLogView.findViewById(R.id.btnDeleteAppSummary);
     }
 
-    public void bind(JobLog job, DateTimeFormatter dateFmt, JobLogViewModel viewModel) {
+    public void bind(JobLog job, DateTimeFormatter dateFmt, JobLogViewModel viewModel, androidx.lifecycle.LifecycleOwner lifecycleOwner) {
         companyTextView.setText("Company: " + safe(job.getCompany()));
         roleTextView.setText("Role: " + safe(job.getPosition()));
 
@@ -50,11 +50,24 @@ public class JobLogViewHolder extends RecyclerView.ViewHolder {
 
         dateTextView.setText("Date: " + safe(job.getDateApplied().toLocalDate().format(dateFmt)));
 
-        //TODO: IF THERE IS A REMINDER SHOW IT
-        // if (job.getNextReminder() != null { set view to visible else gone }
+        //default hide reminder
+        reminderTextView.setVisibility(View.GONE);
+
+        //observe reminder for this job.applicaiton id
+        viewModel.getReminderForJob(job.getId()).observe(lifecycleOwner, reminder -> {
+            if (reminder != null){
+                reminderTextView.setVisibility(View.VISIBLE);
+                DateTimeFormatter reminderFmt = DateTimeFormatter.ofPattern("MM/dd/yyyy h:mm a");
+                String text = "Reminder: " + reminder.getNote()
+                        + " at " + reminder.getTime().format(reminderFmt);
+                reminderTextView.setText(text);
+            } else {
+                reminderTextView.setVisibility(View.GONE);
+            }
+        });
+
 
         editBtn.setOnClickListener(view -> {
-            Toast.makeText(view.getContext(), "Edit " + job.getCompany(), Toast.LENGTH_SHORT).show();
             Context context = itemView.getContext();
             SharedPreferences prefs = context.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
             int userId = prefs.getInt("userId", -1);
@@ -64,7 +77,6 @@ public class JobLogViewHolder extends RecyclerView.ViewHolder {
         });
 
         deleteBtn.setOnClickListener(view -> {
-            Toast.makeText(view.getContext(), "Delete " + job.getCompany(), Toast.LENGTH_SHORT).show();
             viewModel.delete(job);
         });
     }
