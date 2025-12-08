@@ -1,5 +1,9 @@
 package com.example.project2;
 
+import static junit.framework.TestCase.assertNotNull;
+
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 
 import androidx.room.Room;
@@ -8,10 +12,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.project2.database.CareerNestDatabase;
 import com.example.project2.database.ReminderDAO;
+import com.example.project2.database.entities.Reminder;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.time.LocalDateTime;
 
 /**
  * @author Adrik Renteria
@@ -39,6 +47,20 @@ public class ReminderDAOtest {
     @After
     public void tearDown(){
         db.close();
+    }
+    //this should test the insert
+    @Test
+    public void insert_addsReminder() {
+        int beforeSize = reminderDAO.getAllReminders().size();
+        Reminder reminder = new Reminder(
+                1,
+                1,
+                LocalDateTime.now(),
+                "Test Reminder"
+        );
+        reminderDAO.insert(reminder);
+        int afterSize = reminderDAO.getAllReminders().size();
+        assertEquals(beforeSize + 1, afterSize);
     }
 
 }
