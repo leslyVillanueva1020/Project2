@@ -33,4 +33,15 @@ public interface UserDAO {
 
     @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " WHERE id == :userId LIMIT 1")
     LiveData<User> getUserByUserId(int userId);
+
+    /// === added below 3 queries for testing - Marissa Benenati =============================
+    @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " ORDER BY username")
+    List<User> getAllUsersList();
+
+    @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " WHERE id == :userId LIMIT 1")
+    User getUserByUserIdAlt(int userId);
+
+    @Query("SELECT * FROM " + CareerNestDatabase.USER_TABLE + " WHERE username == :username LIMIT 1")
+    User getUserByUserNameAlt(String username);
+    /// =======================================================================================
 }

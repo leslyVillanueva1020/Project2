@@ -29,6 +29,7 @@ public class CareerNestRepository {
     private final UserDAO userDAO;
     private final ReminderDAO reminderDAO;
     private ArrayList<JobLog> allLogs;
+    private ArrayList<User> allUsers;
     private static CareerNestRepository repository;
 
     public CareerNestRepository(Application application){
@@ -37,6 +38,7 @@ public class CareerNestRepository {
         this.userDAO = db.userDAO();
         this.reminderDAO = db.reminderDAO();
         this.allLogs = (ArrayList<JobLog>) this.jobLogDAO.getAllRecords();
+        this.allUsers = (ArrayList<User>) this.userDAO.getAllUsersList();
     }
 
     public static CareerNestRepository getRepository(Application application){
@@ -172,6 +174,16 @@ public class CareerNestRepository {
         return reminderDAO.getReminderById(reminderId);
     }
 
+
+    ///  === Below method is for use with EditEntryActivity ===
+    /// @author Marissa Benenati
+    public JobLog getJobById(int id) {
+        return jobLogDAO.getJobById(id);
+    }
+
+    public void updateJob(JobLog jobLog){
+        CareerNestDatabase.databaseWriteExecutor.execute(() -> jobLogDAO.update(jobLog));
+    }
 
     //unsure of whether or not to include
 //    public ArrayList<JobLog> getAllLogsByUserId(int loggedInUserId) {

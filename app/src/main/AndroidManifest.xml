@@ -11,8 +11,14 @@
         <activity
             android:name=".ReminderActivity"
             android:exported="false" />
+            android:name=".SignUpActivity"
+            android:exported="false" />
+
         <activity
             android:name=".NewApplicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditEntryActivity"
             android:exported="false" />
         <activity
             android:name=".AllApplicationsActivity"

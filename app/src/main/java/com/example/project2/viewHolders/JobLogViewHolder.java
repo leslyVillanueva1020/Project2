@@ -1,5 +1,8 @@
 package com.example.project2.viewHolders;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project2.EditEntryActivity;
 import com.example.project2.R;
 import com.example.project2.database.entities.JobLog;
 
@@ -51,7 +55,12 @@ public class JobLogViewHolder extends RecyclerView.ViewHolder {
 
         editBtn.setOnClickListener(view -> {
             Toast.makeText(view.getContext(), "Edit " + job.getCompany(), Toast.LENGTH_SHORT).show();
-            //TODO: will later start new EDIT Page activity
+            Context context = itemView.getContext();
+            SharedPreferences prefs = context.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+            int userId = prefs.getInt("userId", -1);
+            int jobId = job.getId();
+            Intent intent = EditEntryActivity.editEntryIntentFactory(context, userId, jobId);
+            context.startActivity(intent);
         });
 
         deleteBtn.setOnClickListener(view -> {
