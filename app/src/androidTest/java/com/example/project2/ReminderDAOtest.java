@@ -97,4 +97,24 @@ public class ReminderDAOtest {
 
     }
 
+    //this should test the delete
+    @Test
+    public void delete_removesReminder() {
+        Reminder reminder = new Reminder(
+                1,
+                1,
+                LocalDateTime.now(),
+                "Test Reminder"
+        );
+        reminderDAO.insert(reminder);
+
+        int beforeSize = reminderDAO.getAllReminders().size();
+
+        reminderDAO.delete(reminderDAO.getAllReminders().get(0));
+
+        int afterSize = reminderDAO.getAllReminders().size();
+        assertEquals(beforeSize - 1, afterSize);
+
+    }
+
 }
