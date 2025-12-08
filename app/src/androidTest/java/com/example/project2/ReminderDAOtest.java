@@ -2,12 +2,14 @@ package com.example.project2;
 
 import android.content.Context;
 
+import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.project2.database.CareerNestDatabase;
 import com.example.project2.database.ReminderDAO;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
@@ -28,7 +30,15 @@ public class ReminderDAOtest {
     @Before
     public void setUp(){
         Context context = ApplicationProvider.getApplicationContext();
+        db = Room.inMemoryDatabaseBuilder(context, CareerNestDatabase.class)
+                .allowMainThreadQueries()
+                .build();
+        reminderDAO = db.reminderDAO();
+    }
 
+    @After
+    public void tearDown(){
+        db.close();
     }
 
 }
