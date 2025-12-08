@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Adrik Renteria
@@ -61,6 +62,39 @@ public class ReminderDAOtest {
         reminderDAO.insert(reminder);
         int afterSize = reminderDAO.getAllReminders().size();
         assertEquals(beforeSize + 1, afterSize);
+    }
+
+    //test the update feature in the reminder
+    @Test
+    public void updateReminder() {
+        Reminder reminder = new Reminder(
+                1,
+                1,
+                LocalDateTime.now(),
+                "Test Reminder"
+        );
+        //insets it
+        reminderDAO.insert(reminder);
+
+        //makes a copy
+        Reminder saved = reminderDAO.getAllReminders().get(0);
+        //makes changes
+        saved.setNote("Updated Reminder");
+        saved.setApplicationId(2);
+        saved.setUserId(2);
+        //test and replace
+        reminderDAO.insert(saved);
+
+        //confirms only one row exists
+        List<Reminder> result = reminderDAO.getAllReminders();
+        assertEquals(1, result.size());
+
+        //confirms values were updated
+        Reminder updated = result.get(0);
+        assertEquals("Updated Reminder", updated.getNote());
+        assertEquals(2, updated.getApplicationId());
+        assertEquals(saved.getId(), updated.getId());
+
     }
 
 }
