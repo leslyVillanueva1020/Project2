@@ -13,6 +13,13 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+      <SelectionState runConfigName="insertAndRetrieveReminder()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="insert_addsReminder()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="updateReminder()">
       <SelectionState runConfigName="loginIntentFactory_createsIntentForLoginActivity()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
